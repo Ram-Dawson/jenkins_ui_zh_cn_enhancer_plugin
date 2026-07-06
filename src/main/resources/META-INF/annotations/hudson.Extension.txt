@@ -1,0 +1,6 @@
+# informational; use java -jar sezpoz.jar to see authoritative contents
+io.jenkins.plugins.localization_zh_cn.CommunityDecorator
+io.jenkins.plugins.localization_zh_cn.CommunityPage
+io.jenkins.plugins.localization_zh_cn.LocalizationContributorImpl
+io.jenkins.plugins.localization_zh_cn.UpdateCenterAction
+io.jenkins.plugins.localization_zh_cn.UserCommunityProperty$DescriptorImpl
