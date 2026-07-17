@@ -1,0 +1,6 @@
+<?jelly escape-by-default='true'?>
+<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:l="/lib/layout" xmlns:t="/lib/hudson" xmlns:f="/lib/form">
+    对于许多安全修复，Jenkins 安全团队会加入一些隐藏选项，通常也被称为 <em>应急开关</em>，用于关闭该安全修复。
+    这样做是为了防范测试未覆盖到的严重回归，或意料之外但合理的使用场景。
+    团队目前并不清楚这些选项的实际使用情况，因此本试验会收集与安全相关的 Java 系统属性取值的匿名信息（通常为布尔值）。
+</j:jelly>

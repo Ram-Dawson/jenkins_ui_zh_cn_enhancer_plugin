@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+The MIT License
+
+Copyright 2014 CloudBees, Inc.
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+-->
+<?jelly escape-by-default='true'?>
+<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:l="/lib/layout" xmlns:f="/lib/form">
+    <l:layout title="进程内脚本审批" permission="${app.ADMINISTER}">
+        <st:include page="sidepanel.jelly" it="${app}"/>
+        <l:main-panel>
+            <st:bind value="${it}" var="mgr"/>
+            <st:adjunct includes="org.jenkinsci.plugins.scriptsecurity.scripts.ScriptApproval.script-approval"/>
+            <j:choose>
+                <j:when test="${it.pendingScripts.isEmpty()}">
+                    <p>
+                        没有待审批的脚本。
+                    </p>
+                </j:when>
+                <j:otherwise>
+                    <j:forEach var="ps" items="${it.pendingScripts}">
+                        <div id="ps-${ps.hash}" class="pending-script">
+                            <p class="ps-context">
+                                <button class="approve" data-hash="${ps.hash}">批准</button> / <button class="deny" data-hash="${ps.hash}">拒绝</button> ${ps.language.displayName} 脚本
+                                <st:include it="${ps.context}" page="index.jelly"/>：
+                            </p>
+                            <f:textarea readonly="readonly" codemirror-mode="${ps.language.codeMirrorMode}" codemirror-config='"readOnly": true' rows="10" cols="80" value="${ps.script}"/>
+                        </div>
+                    </j:forEach>
+                </j:otherwise>
+            </j:choose>
+            <j:if test="${it.hasDeprecatedApprovedScriptHashes()}">
+                <p id="deprecated-approvedScripts-clear">
+                    你有 <st:out value="${it.countDeprecatedApprovedScriptHashes()}"/> 个使用已弃用哈希的脚本审批记录：
+                    <button>清理已弃用的审批</button>
+                </p>
+                <p class="setting-description">
+                    Jenkins 以脚本的哈希值来存储脚本审批记录。旧的审批记录使用的是已弃用的 SHA-1 哈希算法。
+                    由于系统只存储脚本哈希，无法立即将其转换为新的哈希算法，因此会在该脚本下次使用时自动重新计算哈希。
+                    为尽量降低潜在安全风险，你可以立即撤销所有使用 SHA-1 哈希的脚本审批。<strong>这样会导致所有使用这些脚本的任务和功能在重新配置并由 Jenkins 管理员重新审批之前都无法正常运行。</strong>
+                </p>
+            </j:if>
+            <p id="approvedScripts-clear">
+                你也可以移除之前的所有脚本审批记录：
+                <button>清理审批</button>
+            </p>
+            <hr/>
+            <j:choose>
+                <j:when test="${it.pendingSignatures.isEmpty()}">
+                    <p>
+                        没有待审批的签名。
+                    </p>
+                </j:when>
+                <j:otherwise>
+                    <j:forEach var="s" items="${it.pendingSignatures}">
+                        <div id="s-${s.hash}">
+                            <p class="s-context">
+                                <button data-signature="${s.signature}" data-hash="${s.hash}" class="approve">批准</button> /
+                                <j:if test="${!s.signature.startsWith('field')}">
+                                    <button data-signature="${s.signature}" data-hash="${s.hash}" class="acl-approve">假定已进行权限检查并批准</button> /
+                                </j:if>
+                                <button data-signature="${s.signature}" data-hash="${s.hash}" class="deny">拒绝</button> 签名
+                                <st:include it="${s.context}" page="index.jelly"/>：
+                                <code>${s.signature}</code>
+                                <j:if test="${s.dangerous}">
+                                    <st:nbsp/><strong><font color="red">批准此签名可能引入安全漏洞！建议拒绝。</font></strong>
+                                </j:if>
+                            </p>
+                        </div>
+                    </j:forEach>
+                </j:otherwise>
+            </j:choose>
+            <p>已批准的签名：</p>
+            <br/>
+            <textarea readonly="readonly" id="approvedSignatures" rows="10" cols="80">
+                <j:forEach var="line" items="${it.approvedSignatures}">${line}<st:out value="&#10;"/></j:forEach>
+            </textarea>
+            <p>假定已进行权限检查而批准的签名：</p>
+            <br/>
+            <textarea readonly="readonly" id="aclApprovedSignatures" rows="10" cols="80">
+                <j:forEach var="line" items="${it.aclApprovedSignatures}">${line}<st:out value="&#10;"/></j:forEach>
+            </textarea>
+            <j:set var="dangerousApprovedSignatures" value="${it.dangerousApprovedSignatures}"/>
+            <j:if test="${!empty(dangerousApprovedSignatures)}">
+                <p>已批准且<strong><font color="red">可能已引入安全漏洞</font></strong>的签名（建议清理）：</p>
+                <br/>
+                <textarea readonly="readonly" id="dangerousApprovedSignatures" rows="10" cols="80">
+                    <j:forEach var="line" items="${dangerousApprovedSignatures}">${line}<st:out value="&#10;"/></j:forEach>
+                </textarea>
+            </j:if>
+            <p id="approvedSignatures-clear">
+                你也可以移除之前的所有签名审批记录：
+                <button>清理审批</button>
+            </p>
+            <j:if test="${!empty(dangerousApprovedSignatures)}">
+                <p id="dangerousApprovedSignatures-clear">
+                    或者你也可以只移除危险签名：
+                    <button>仅清理危险审批</button>
+                </p>
+            </j:if>
+            <hr/>
+            <p id="pendingClasspathEntries-none">
+                没有待审批的类路径条目。
+            </p>
+            <div id="pendingClasspathEntries">
+                类路径条目待审批。（请警惕远程 URL、工作区文件或任何可能在你未察觉时发生变化的内容。）
+            </div>
+            <p>已批准的类路径条目：</p>
+            <p id="approvedClasspathEntries-none">
+                没有已批准的类路径条目。
+            </p>
+            <div id="approvedClasspathEntries">
+            </div>
+            <j:if test="${it.hasDeprecatedApprovedClasspathHashes()}">
+                <p id="deprecated-approvedClasspaths-clear">
+                    你有 ${it.countDeprecatedApprovedClasspathHashes()} 个使用已弃用哈希的已批准类路径条目：
+                    <span id="deprecated-approvedClasspaths-clear-btn">
+                        <button>重新计算已弃用审批的哈希</button>
+                    </span>
+                    <span id="deprecated-approvedClasspaths-clear-spinner">
+                        <l:icon alt="${%Converting...}" class="${it.spinnerIconClassName} icon-md"/>
+                    </span>
+                </p>
+                <p class="setting-description">
+                    已批准的类路径条目会在 Jenkins 中连同其 URL 和该 URL 指向资源的内容哈希一起存储。旧的审批记录使用的是已弃用的 SHA-1 哈希算法。
+                    由于 URL 已知，因此它们可以批量重新计算哈希，但这可能需要一些时间，所以系统也会在它们下次被使用时逐个重新计算，以避免造成干扰。
+                    为尽量降低潜在安全风险，你可以安排一个后台任务，自动将现有所有已批准类路径条目转换为新的哈希格式。
+                </p>
+                <j:choose>
+                    <j:when test="${it.isConvertingDeprecatedApprovedClasspathEntries()}">
+                        <st:adjunct includes="org.jenkinsci.plugins.scriptsecurity.scripts.ScriptApproval.deprecated-approvedClasspaths-clear-btn-hide"/>
+                    </j:when>
+                    <j:otherwise>
+                        <st:adjunct includes="org.jenkinsci.plugins.scriptsecurity.scripts.ScriptApproval.deprecated-approvedClasspaths-clear-btn-show"/>
+                    </j:otherwise>
+                </j:choose>
+            </j:if>
+            <p id="approvedClasspathEntries-clear">
+                你也可以移除之前的所有类路径条目审批记录：
+                <button>清理类路径条目</button>
+            </p>
+        </l:main-panel>
+    </l:layout>
+</j:jelly>

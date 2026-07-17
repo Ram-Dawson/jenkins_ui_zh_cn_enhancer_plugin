@@ -1,0 +1,4 @@
+<?jelly escape-by-default='true'?>
+<div>
+    为流水线任务运行提供“流水线图”可视化展示。
+</div>

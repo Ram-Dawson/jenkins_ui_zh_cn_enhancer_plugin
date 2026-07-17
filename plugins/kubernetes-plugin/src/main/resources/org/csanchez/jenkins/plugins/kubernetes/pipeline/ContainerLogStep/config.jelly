@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?jelly escape-by-default='true'?>
+<j:jelly xmlns:j="jelly:core" xmlns:f="/lib/form">
+    <f:block>
+        <p>
+            获取当前 Pod 中运行的容器日志，并将其输出到构建日志或作为返回值。
+            仅可在请求 Kubernetes agent 的 <code>node</code> 内使用。
+        </p>
+    </f:block>
+    <f:entry field="name" title="容器名称">
+        <f:textbox clazz="required"/>
+    </f:entry>
+    <f:entry field="returnLog" title="返回容器日志">
+        <f:checkbox/>
+    </f:entry>
+    <f:entry field="tailingLines" title="返回末尾的日志行数">
+        <f:number/>
+    </f:entry>
+    <f:entry field="sinceSeconds" title="仅返回指定秒数内的日志">
+        <f:number/>
+    </f:entry>
+    <f:entry field="limitBytes" title="限制从开头返回的输出字节数">
+        <f:number/>
+    </f:entry>
+</j:jelly>

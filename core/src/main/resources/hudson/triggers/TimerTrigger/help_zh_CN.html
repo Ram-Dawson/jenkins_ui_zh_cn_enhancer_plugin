@@ -1,0 +1,23 @@
+<div>
+  提供类似
+  <a href="https://en.wikipedia.org/wiki/cron">cron</a>
+  的能力，用于按计划周期性执行该项目。
+
+  <p>
+    这个功能主要用于把 Jenkins 当作 cron 的替代方案，
+    并
+    <b>不适合用于持续构建软件项目</b>
+    。
+    很多人刚接触持续集成时，会习惯性地想到 nightly 或 weekly 这类定时构建，因此会优先使用这个功能。
+    但持续集成的核心在于：一旦代码发生变化，就尽快启动构建，以便快速获得反馈。
+    要实现这一点，你需要
+    <a href="https://www.jenkins.io/redirect/scm-change-trigger">
+      让 SCM 的变更通知接入 Jenkins
+    </a>
+    。
+  </p>
+
+  <p>
+    因此，在使用这个功能之前，先停下来确认一下：这真的是你想要的吗？
+  </p>
+</div>

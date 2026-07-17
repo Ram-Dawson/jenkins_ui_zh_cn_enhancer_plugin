@@ -1,0 +1,9 @@
+<p>
+    映射如何在 <code>@Library</code>.<br/> 中命名 ref
+    示例：test-@{1} <br/>
+    其中 @{1} 在发现时替换引用中的第一个通配符。
+</p>
+<p>
+    默认情况下，它将是“namespace_before_wildcard-@{1}”。例如。如果 ref 是“test/*/merged”，则默认映射为
+    “测试-@{1}”。
+</p>

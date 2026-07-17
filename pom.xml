@@ -21,6 +21,7 @@
   </scm>
   
   <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <jenkins.version>2.387.3</jenkins.version>
     <changelist>999999-SNAPSHOT</changelist>
    </properties>
@@ -58,6 +59,9 @@
       </resource>
       <resource>
         <directory>plugins/credentials-plugin/src/main/resources</directory>
+        <excludes>
+          <exclude>index.jelly</exclude>
+        </excludes>
       </resource>
       <resource>
         <directory>plugins/credentials-plugin/src/main/webapp</directory>
@@ -70,7 +74,16 @@
         <directory>plugins/cloudbees-folder-plugin/src/main/resources</directory>
       </resource>
       <resource>
+        <directory>plugins/build-timeout-plugin/src/main/resources</directory>
+      </resource>
+      <resource>
+        <directory>plugins/email-ext-plugin/src/main/resources</directory>
+      </resource>
+      <resource>
         <directory>plugins/git-plugin/src/main/resources</directory>
+      </resource>
+      <resource>
+        <directory>plugins/git-client-plugin/src/main/resources</directory>
       </resource>
       <resource>
         <directory>plugins/github-branch-source-plugin/src/main/resources</directory>
@@ -98,6 +111,9 @@
       </resource>
       <resource>
         <directory>plugins/locale-plugin/src/main/resources</directory>
+        <excludes>
+          <exclude>index.jelly</exclude>
+        </excludes>
       </resource>
       <resource>
         <directory>plugins/mailer-plugin/src/main/resources</directory>
@@ -125,6 +141,9 @@
       </resource>
       <resource>
         <directory>plugins/workflow-job-plugin/src/main/resources</directory>
+        <excludes>
+          <exclude>index.jelly</exclude>
+        </excludes>
       </resource>
       <resource>
         <directory>plugins/workflow-multibranch-plugin/src/main/resources</directory>
@@ -136,10 +155,28 @@
         <directory>plugins/pipeline-input-step-plugin/src/main/resources</directory>
       </resource>
       <resource>
-        <directory>plugins/pipeline-model-definition-plugin/src/main/resources</directory>
+        <directory>plugins/pipeline-model-definition-plugin/pipeline-model-definition/src/main/resources</directory>
+        <excludes>
+          <exclude>index.jelly</exclude>
+        </excludes>
+      </resource>
+      <resource>
+        <directory>plugins/pipeline-graph-view-plugin/src/main/resources</directory>
+        <excludes>
+          <exclude>index.jelly</exclude>
+        </excludes>
       </resource>
       <resource>
         <directory>plugins/pipeline-stage-view-plugin/ui/src/main/resources</directory>
+      </resource>
+      <resource>
+        <directory>plugins/prism-api-plugin/src/main/resources</directory>
+      </resource>
+      <resource>
+        <directory>plugins/script-security-plugin/src/main/resources</directory>
+        <excludes>
+          <exclude>index.jelly</exclude>
+        </excludes>
       </resource>
       <resource>
         <directory>plugins/priority-sorter-plugin/src/main/resources</directory>
@@ -169,13 +206,28 @@
         <directory>src/main/resources</directory>
       </resource>
       <resource>
-        <directory>plugins/ws-cleanup-plugin/main/resources</directory>
-      </resource>
-      <resource>
         <directory>plugins/git-parameter-plugin/src/main/resources</directory>
       </resource>
       <resource>
         <directory>plugins/label-verifier-plugin/src/main/resources</directory>
+      </resource>
+      <resource>
+        <directory>plugins/build-user-vars-plugin/src/main/resources</directory>
+      </resource>
+      <resource>
+        <directory>plugins/display-url-api-plugin/src/main/resources</directory>
+      </resource>
+      <resource>
+        <directory>plugins/gradle-plugin/plugin/src/main/resources</directory>
+      </resource>
+      <resource>
+        <directory>plugins/pipeline-groovy-lib-plugin/src/main/resources</directory>
+      </resource>
+      <resource>
+        <directory>plugins/workflow-api-plugin/src/main/resources</directory>
+      </resource>
+      <resource>
+        <directory>plugins/ws-cleanup-plugin/src/main/resources</directory>
       </resource>
     </resources>
   </build>

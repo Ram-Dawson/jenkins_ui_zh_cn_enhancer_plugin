@@ -1,0 +1,11 @@
+<div>
+  归档构建产物使用的是 Ant 的
+  <code>org.apache.tools.ant.DirectoryScanner</code>
+  ，默认区分大小写。比如如果作业生成的是 `*.hpi` 文件，那么模式
+  `**/*.HPI` 将无法匹配到这些文件。
+  <br />
+  <br />
+  此选项可用于关闭大小写敏感。取消勾选后，模式 `**/*.HPI` 也可以匹配任意
+  `*.hpi` 文件，模式 `**/cAsEsEnSiTiVe.jar` 也可以匹配名为
+  `caseSensitive.jar` 的文件。
+</div>

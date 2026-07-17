@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?jelly escape-by-default='true'?>
+<j:jelly xmlns:j="jelly:core" xmlns:f="/lib/form">
+    <f:invisibleEntry title="${%Path or URL:}" field="configurationPath">
+        <f:textbox field="configurationPath" add="添加新的 *.yaml 文件路径"/>
+    </f:invisibleEntry>
+</j:jelly>

@@ -1,0 +1,34 @@
+<?jelly escape-by-default='true'?>
+<j:jelly xmlns:j="jelly:core" xmlns:l="/lib/layout" xmlns:dd="/lib/layout/dropdowns">
+  <script src="${resURL}/jsbundles/pages/project/builds-card.js" type="text/javascript" defer="true" />
+  <j:set var="page" value="${it.historyPageFilter}" />
+  <j:set var="controls">
+    <l:overflowButton icon="symbol-menu" clazz="jenkins-card__reveal">
+      <j:if test="${h.developmentMode}">
+        <dd:item icon="symbol-pause" text="${%Pause auto refresh}" id="pause-history-widget-updates" />
+        <dd:item icon="symbol-refresh" clazz="jenkins-hidden" text="${%Refresh widget}" id="refresh-history-widget" />
+        <dd:separator/>
+      </j:if>
+      <dd:item icon="symbol-rss" text="Atom feed ${%for all}" href="${it.baseUrl}/rssAll" />
+      <dd:item icon="symbol-rss" text="Atom feed ${%for failures}" href="${it.baseUrl}/rssFailed" />
+    </l:overflowButton>
+  </j:set>
+  <div id="buildHistoryPage" page-ajax="${it.baseUrl}/buildHistory/ajax"
+       data-page-entry-newest="${page.newestOnPage}" data-page-entry-oldest="${page.oldestOnPage}"
+       data-page-has-up="${page.hasUpPage}" data-page-has-down="${page.hasDownPage}" data-auto-refresh="true"
+       data-pause-text="${%Pause auto refresh}" data-resume-text="${%Resume auto refresh}">
+    <l:card id="jenkins-builds" title="${%Builds}" controls="${controls}" expandable="${it.baseUrl}/buildTimeTrend">
+      <l:search-bar placeholder="${%find}" clazz="${page.runs.isEmpty() and page.queueItems.isEmpty() ? 'jenkins-hidden' : ''}"/>
+      <div class="app-builds-container">
+        <div id="loading-builds" class="app-builds-container__placeholder"><l:spinner text="${%Loading builds...}"/></div>
+        <div id="no-builds" style="display:none" class="app-builds-container__placeholder">${%No builds}</div>
+        <div id="jenkins-build-history" class="app-builds-container__items"></div>
+        <div class="app-builds-container__controls jenkins-hidden" id="controls">
+          <button class="jenkins-button jenkins-button--tertiary jenkins-card__unveil" id="up"><l:icon src="symbol-arrow-left" /><span class="jenkins-visually-hidden">${%Newer builds}</span></button>
+          <button class="jenkins-button jenkins-button--tertiary jenkins-card__unveil" id="down"><l:icon src="symbol-arrow-right" /><span class="jenkins-visually-hidden">${%Older builds}</span></button>
+        </div>
+      </div>
+      <div id="properties" page-next-build="${it.nextBuildNumberToFetch ?: it.owner.nextBuildNumber}"/>
+    </l:card>
+  </div>
+</j:jelly>

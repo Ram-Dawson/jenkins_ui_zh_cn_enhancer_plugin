@@ -1,0 +1,12 @@
+<div>
+  每个排除项都使用 <a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/regex/Pattern.html">java 正则表达式模式匹配</a>，
+    并且必须用新行分隔。
+  <p/>
+  <pre>
+    myapp/src/main/web/.*\.html
+    myapp/src/main/web/.*\.jpeg
+    myapp/src/main/web/.*\.gif
+  </pre>
+  上面的例子说明了如果只提交 html/jpeg/gif 文件
+  SCM 的构建不会发生。
+</div>

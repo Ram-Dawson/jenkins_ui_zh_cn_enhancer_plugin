@@ -1,0 +1,17 @@
+<?jelly escape-by-default='true'?>
+<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:l="/lib/layout" xmlns:t="/lib/hudson" xmlns:f="/lib/form" xmlns:i="jelly:fmt">
+
+  <h2>取消队列中某个条目的构建</h2>
+  <p>
+    若要以编程方式取消队列中某个条目的构建，请向 <a href="../cancelItem">此 URL</a> 发送 POST。
+    需要通过名为 <code>id</code> 的查询参数传入要取消的条目 ID。
+
+    返回结果如下：
+    <ul>
+      <li>204：与给定 ID 关联的运行已成功取消</li>
+      <li>422：提供的 ID 不存在，或对应的条目不允许取消</li>
+      <li>500：提供的 ID 存在，但 Jenkins 无法取消该运行</li>
+    </ul>
+  </p>
+
+</j:jelly>

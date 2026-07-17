@@ -1,0 +1,122 @@
+<p>
+    允许以不同方式使用各种类型的 credentials（secret）。
+    （有些步骤会显式要求特定类型的 credentials，
+    通常以 <code>credentialsId</code> 参数指定，
+    此时无需使用此步骤。）
+    每个绑定都会定义一个在此步骤范围内生效的环境变量。
+    然后，您可以直接在需要已设置环境变量的其他步骤中使用它们：
+</p>
+<pre><code>node {
+  withCredentials([usernameColonPassword(credentialsId: 'mylogin', variable: 'USERPASS')]) {
+    sh '''
+      set +x
+      curl -u "$USERPASS" https://private.server/ > output
+    '''
+  }
+}</code></pre>
+<p>
+    另一个示例（使用<i>片段生成器</i>查看所有选项）：
+</p>
+<pre><code>node {
+  withCredentials([string(credentialsId: 'mytoken', variable: 'TOKEN')]) {
+    sh '''
+      set +x
+      curl -H "Token: $TOKEN" https://some.api/
+    '''
+  }
+}</code></pre>
+<p>
+    请注意上方 Groovy 中用于定义 <code>script</code>
+    （<code>sh</code> 的隐式参数）时使用的是<em>单引号</em>。
+    应让 shell 将 secret 展开为环境变量。
+    以下写法的安全性可能较低，因为 secret 会由 Groovy 插值，
+    因此（例如）典型的操作系统进程列表可能会意外泄露它：
+</p>
+<pre><code>node {
+  withCredentials([string(credentialsId: 'mytoken', variable: 'TOKEN')]) {
+    sh /* WRONG! */ """
+      set +x
+      curl -H 'Token: $TOKEN' https://some.api/
+    """
+  }
+}</code></pre>
+<p>
+    至少在 Linux 上，同一帐户下运行的其他进程可以获取环境变量，
+    因此不应将使用 secret 的任务与由不受信任方控制的任务运行在同一个节点上。
+    无论如何，应始终优先将其展开为环境变量，而不是将其写入命令，
+    因为 Blue Ocean 等 Jenkins 可视化界面会<em>尝试</em>检测包含 secret 的步骤参数，
+    并拒绝显示它们。
+</p>
+<p>
+    如果 secret 输出到构建日志，将以掩码（<code>****</code>）显示。
+    这可防止您通过日志<em>意外</em>泄露密码等内容。
+    （Bourne shell 的 <code>set +x</code> 或 Windows batch 的 <code>@echo off</code>
+    可阻止 secret 显示在回显命令中；
+    但处于调试模式的构建工具可能会将所有环境变量输出到标准输出或标准错误，
+    设计不当的网络客户端也可能显示身份验证信息等。）
+    当然，可以轻易规避掩码机制；
+    任何有权配置任务或定义 Pipeline 步骤的人，
+    都被假定为可信任的，并可按其意愿使用作用域内的任何 credentials。
+</p>
+<p>
+    请注意，某些工具在显示 secret 时会改变其内容。
+    例如，Bash（不同于 Ubuntu 中更简单的 Dash）在 echo 模式下会改变包含 <code>'</code> 的文本：
+</p>
+<pre><code>$ export PASS=foo"'"bar
+$ env|fgrep PASS
+PASS=foo'bar
+$ sh -xc 'echo $PASS'
++ echo foo'bar
+foo'bar
+$ bash -xc 'echo $PASS'
++ echo 'foo'\''bar'
+foo'bar
+</code></pre>
+<p>
+    只能尽力检测被改变的 secret。默认情况下，Jenkins 会尝试按它们在 Bourne shell、
+    Bash、Almquist shell 和 Windows batch 输出中呈现的方式掩码被改变的 secret。没有这些策略时，
+    被改变的 secret 将以纯文本显示在日志文件中。以上例为例，结果将是：
+</p>
+<pre><code>+ echo 'foo'\''bar'
+****</code></pre>
+<p>
+    更安全地避免此问题的方法是使用 <code>set +x</code> 关闭回显，或避免在 secret 中使用
+    shell 元字符。
+</p>
+<p>
+    对于存储 secret 文件的绑定，请注意：
+</p>
+<pre><code>node {
+  dir('subdir') {
+    withCredentials([file(credentialsId: 'secret', variable: 'FILE')]) {
+      sh 'use $FILE'
+    }
+  }
+}</code></pre>
+<p>
+    此写法不安全，因为 <code>$FILE</code> 可能位于 workspace 内（在 <code>subdir@tmp/secretFiles/</code> 中），
+    因而对任何能够浏览任务 workspace 的用户可见。
+    如果需要在不同于常规 workspace 的目录中运行步骤，应改用：
+</p>
+<pre><code>node {
+  withCredentials([file(credentialsId: 'secret', variable: 'FILE')]) {
+    dir('subdir') {
+      sh 'use $FILE'
+    }
+  }
+}</code></pre>
+<p>
+    以确保 secret 位于 workspace 外；或者完全选择其他 workspace：
+</p>
+<pre><code>node {
+  ws {
+    withCredentials([file(credentialsId: 'secret', variable: 'FILE')]) {
+      sh 'use $FILE'
+    }
+  }
+}</code></pre>
+<p>
+    有关更多背景信息，还可参阅
+    <a href="https://jenkins.io/blog/2019/02/21/credentials-masking/" target="_blank">Credentials 掩码的局限性</a>
+    博客文章。
+</p>

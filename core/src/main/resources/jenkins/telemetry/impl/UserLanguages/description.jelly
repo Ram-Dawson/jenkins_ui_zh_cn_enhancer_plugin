@@ -1,0 +1,5 @@
+<?jelly escape-by-default='true'?>
+<j:jelly xmlns:j="jelly:core">
+    本试验会收集 Jenkins 用户浏览器中 <code>Accept-Language</code> 请求头取值分布的相关信息，以帮助推进本地化工作。
+    我们会收集各个 Accept-Language 请求头的取值，以及 Jenkins 接收到每种请求头的请求数量。
+</j:jelly>

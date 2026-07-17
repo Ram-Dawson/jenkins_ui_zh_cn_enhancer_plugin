@@ -1,0 +1,69 @@
+<!--
+  - The MIT License
+  -
+  - Copyright (c) 2013, Oleg Nenashev, Synopsys Inc.
+  -
+  - Permission is hereby granted, free of charge, to any person obtaining a copy
+  - of this software and associated documentation files (the "Software"), to deal
+  - in the Software without restriction, including without limitation the rights
+  - to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+  - copies of the Software, and to permit persons to whom the Software is
+  - furnished to do so, subject to the following conditions:
+  -
+  - The above copyright notice and this permission notice shall be included in
+  - all copies or substantial portions of the Software.
+  -
+  - THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  - IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  - FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+  - AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  - LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+  - OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+  - THE SOFTWARE.
+  -->
+<?jelly escape-by-default='true'?>
+<j:jelly xmlns:j="jelly:core" xmlns:l="/lib/layout">
+  <j:set var="header">
+    <l:view>
+      <l:app-bar title="${%Macros}"/>
+      <p class="jenkins-page-description">
+        宏可扩展访问权限分析，并可用于角色字段。
+      </p>
+      <p class="jenkins-!-margin-bottom-3" style="color:var(--text-color-secondary);font-size:0.875rem;">
+        格式：
+        <code>@macroName[:id][(param1, param2)]</code>
+        例如 <code>@BuildableJob</code>、<code>@BuildableJob:1</code>、
+        <code>@Folder(folderName)</code>
+      </p>
+    </l:view>
+  </j:set>
+  <l:settings-subpage title="${%Macros}" permissions="${it.strategy.SYSTEM_READ_AND_SOME_ROLES_ADMIN}" noDefer="true"
+                      includeBreadcrumb="true" header="${header}">
+    <link rel="stylesheet" href="${rootURL}/plugin/role-strategy/css/role-strategy.css" type="text/css"/>
+
+    <j:invoke var="macros" method="getRoleMacroExtensions" on="${it}"/>
+
+    <div class="rsp-cards">
+      <j:forEach var="macroExt" items="${macros}">
+        <div class="rsp-card rsp-card--read-only" data-macro-name="${macroExt.getName()}">
+          <div class="rsp-card__header">
+            <span class="rsp-card__name">@${macroExt.getName()}</span>
+            <j:if test="${macroExt.IsApplicable(it.globalRoleType)}">
+              <span class="rsp-card__template-badge">全局</span>
+            </j:if>
+            <j:if test="${macroExt.IsApplicable(it.projectRoleType)}">
+              <span class="rsp-card__template-badge">项目</span>
+            </j:if>
+            <j:if test="${macroExt.IsApplicable(it.slaveRoleType)}">
+              <span class="rsp-card__template-badge">节点</span>
+            </j:if>
+            <span class="rsp-card__summary">
+              <j:out value="${macroExt.getDescription()}"/>
+            </span>
+          </div>
+        </div>
+      </j:forEach>
+    </div>
+
+  </l:settings-subpage>
+</j:jelly>

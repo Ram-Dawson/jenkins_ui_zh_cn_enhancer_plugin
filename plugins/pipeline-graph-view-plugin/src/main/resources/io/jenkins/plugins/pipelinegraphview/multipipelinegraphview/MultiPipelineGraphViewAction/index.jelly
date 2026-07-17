@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?jelly escape-by-default='true'?>
+<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:l="/lib/layout">
+  <l:layout title="阶段 [${it.jobDisplayName}]" type="one-column">
+    <l:main-panel>
+      <l:app-bar title="${%Stages}">
+        <j:if test="${it.buildable}">
+          <l:hasPermission permission="${it.permission}">
+            <j:set var="proxyId" value="${h.generateId()}" />
+            <st:bind value="${it}" var="rebuildAction${proxyId}"/>
+            <button id="pgv-rebuild" data-success-message="${%Build scheduled}"
+                    data-proxy-name="rebuildAction${proxyId}"
+                    class="jenkins-button jenkins-!-build-color">
+              <l:icon src="symbol-play-outline plugin-ionicons-api"/>
+              ${%Build}
+            </button>
+          </l:hasPermission>
+        </j:if>
+        <div id="multiple-pipeline-overflow-root" />
+      </l:app-bar>
+
+      <j:set var="configPermission" value="${h.hasPermission(it, it.configurePermission)}" />
+      <template data-module="permissions"
+                data-permission-configure="${configPermission}"
+      />
+      <template data-module="user-preferences"
+                data-preference-show-stage-names="${it.showStageNames}"
+                data-preference-show-stage-durations="${it.showStageDurations}"/>
+
+      <div id="multiple-pipeline-root"
+           data-current-job-path="${rootURL + '/' + it.jobUrl}"
+           data-normalized-parent-job-path="${it.normalizedParentJobPath}"
+           data-user-locale="${request2.getLocale().toLanguageTag()}"/>
+      <script src="${rootURL}/plugin/pipeline-graph-view/js/bundles/multi-pipeline-graph-view-bundle.js" type="module"/>
+      <script src="${rootURL}/plugin/pipeline-graph-view/js/build.js" type="module"/>
+    </l:main-panel>
+  </l:layout>
+</j:jelly>

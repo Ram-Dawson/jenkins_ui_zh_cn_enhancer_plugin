@@ -1,0 +1,16 @@
+<div>
+    如果设置，并且 Jenkins 设置为轮询更改，Jenkins 将忽略与消息匹配的任何提交的修订
+    <a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/regex/Pattern.html">确定时的模式</a>
+    如果需要触发构建。这可用于排除构建本身完成的提交，以免触发另一个构建，
+    假设构建服务器使用不同的消息提交更改。
+    <p/>排除使用 <a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/regex/Pattern.html">模式</a>
+    <a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/regex/Matcher.html#matches()">匹配</a>
+    <p/>
+  <pre>.*\[maven-release-plugin\].*</pre>
+    上面的示例说明，如果仅在第一个注释行中使用“[maven-release-plugin]”消息进行修订
+    已承诺SCM 构建不会发生。
+    <p/>
+    您可以使用嵌入的标志表达式创建更复杂的模式。
+   <pre>(?s).*FOO.*</pre>
+     此示例将在所有注释行中搜索 FOO 消息。
+</div>

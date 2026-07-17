@@ -1,0 +1,17 @@
+<?jelly escape-by-default='true'?>
+<j:jelly xmlns:j="jelly:core">
+    本试验会收集与安全设置相关的基础信息：
+    <ul>
+        <li>当前配置的安全域类型，例如 <code>hudson.security.HudsonPrivateSecurityRealm</code></li>
+        <li>当前配置的授权策略类型，例如 <code>hudson.security.ProjectMatrixAuthorizationStrategy</code></li>
+        <li>当前配置的 crumb issuer 类型，例如 <code>hudson.security.csrf.DefaultCrumbIssuer</code></li>
+        <li>当前配置的标记格式化器类型，例如 <code>hudson.markup.RawHtmlMarkupFormatter</code></li>
+        <li>入站 Agent 的 TCP 端口是启用状态（固定或随机）还是禁用状态</li>
+        <li>标记为 <em>为每个新建用户生成一个遗留 API 令牌（不推荐）</em> 的 API 令牌选项是启用还是禁用</li>
+        <li>标记为 <em>允许用户手动创建一个遗留 API 令牌（不推荐）</em> 的 API 令牌选项是启用还是禁用</li>
+        <li>标记为 <em>启用 API 令牌使用统计</em> 的 API 令牌选项是启用还是禁用</li>
+    </ul>
+
+    此外，本试验还会收集已安装插件及其版本，以及 Jenkins 的版本。
+    这些数据将用于了解这些功能下各种实现方案的实际流行程度。
+</j:jelly>

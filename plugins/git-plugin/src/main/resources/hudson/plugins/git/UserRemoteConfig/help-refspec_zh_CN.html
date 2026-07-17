@@ -1,0 +1,26 @@
+<div>
+    refspec 控制要检索的远程引用以及它们如何映射到本地引用。如果留空，则默认为
+    <code>git fetch</code> 的正常行为，它将所有分支头检索为 <code>remotes/REPOSITORYNAME/BRANCHNAME</code>。
+    对于大多数情况，此默认行为是可以的。
+
+    <p>
+    换句话说，默认的 refspec 是“+refs/heads/*:refs/remotes/REPOSITORYNAME/*”，其中 <code>REPOSITORYNAME</code> 是值
+    您在上面的“仓库名称”文本框中指定。
+
+    <p>
+    你想什么时候修改这个值？一个很好的例子是当您只想检索一个分支时。例如，
+    <code>+refs/heads/master:refs/remotes/origin/master</code> 只会检索 master 分支，而不会检索其他分支。
+
+    <p>
+    该插件使用默认的引用规范进行初始获取，除非“高级克隆选项”设置为遵循引用规范。
+    这保持了与以前行为的兼容性，并允许作业定义决定 refspec 是否应该是
+    在最初的克隆中获得荣誉。
+
+    <p>
+    可以通过用空格字符分隔来输入多个参考规范。
+    <code>+refs/heads/master:refs/remotes/origin/master&nbsp;+refs/heads/develop:refs/remotes/origin/develop</code>
+    检索主分支和开发分支，仅此而已。
+
+    <p>
+    有关更多详细信息，请参阅 <a href="https://git-scm.com/book/en/v2/Git-Internals-The-Refspec">Git 用户手册中的 refspec 定义</a>。
+</div>

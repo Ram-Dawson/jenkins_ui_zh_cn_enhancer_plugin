@@ -1,0 +1,4 @@
+<?jelly escape-by-default='true'?>
+<div>
+此插件允许你在 Jenkins 中存储凭据。
+</div>

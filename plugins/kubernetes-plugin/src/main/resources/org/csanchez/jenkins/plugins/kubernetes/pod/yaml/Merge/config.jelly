@@ -1,0 +1,5 @@
+<?jelly escape-by-default='true'?>
+<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:l="/lib/layout"
+         xmlns:t="/lib/hudson" xmlns:f="/lib/form">
+  <f:description>从继承的 Pod 模板取得的 YAML 定义会与当前模板的 YAML 片段合并。</f:description>
+</j:jelly>

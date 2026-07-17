@@ -1,0 +1,11 @@
+<?jelly escape-by-default='true'?>
+<j:jelly xmlns:j="jelly:core">
+    本试验会收集两个时间戳：
+    <ul>
+        <li><a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/System.html#nanoTime()"><code>System#nanoTime</code></a> 在试验初始化时的取值（大致对应 Jenkins 启动时间）</li>
+        <li><a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/System.html#nanoTime()"><code>System#nanoTime</code></a> 在试验数据被收集时的取值（也就是提交前刚准备数据时）</li>
+    </ul>
+
+    此外，本试验还会收集已安装插件及其版本，以及 Jenkins 的版本。
+    这些数据将有助于理解其他试验数据出现异常上报频率的原因。
+</j:jelly>

@@ -1,0 +1,132 @@
+<!--
+The MIT License
+
+Copyright (c) 2004-2009, Sun Microsystems, Inc., Kohsuke Kawaguchi
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+-->
+
+<?jelly escape-by-default='true'?>
+<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:l="/lib/layout" xmlns:t="/lib/hudson" xmlns:f="/lib/form" xmlns:i="jelly:fmt">
+  <l:layout title="远程 API" type="one-column">
+    <l:main-panel>
+      <h1>REST API</h1>
+
+      <p>
+        Jenkins 中的许多对象都提供远程访问 API。它们可通过
+        <code>${rootURL}/.../api/</code> 访问，其中 “...” 代表你希望访问的对象。
+      </p>
+
+      <dl>
+        <dt><a href="xml">XML API</a></dt>
+        <dd>
+          以 XML 形式访问在 <a href="..">HTML</a> 页面中暴露的数据，便于机器消费。
+          也提供<a href="schema">Schema</a>。
+
+          <p>
+            你还可以指定可选的 XPath 来精确控制想获取的片段（但请参见<a href="#tree">下文</a>）。
+            例如：<code>../api/xml?xpath=/*/*[0]</code>。
+          </p>
+          <p>
+            如果 XPath 会匹配多个节点，你还需要指定 <code>wrapper</code> 查询参数，
+            以设置根 XML 元素的名称，从而使最终返回的 XML 是格式良好的。
+          </p>
+          <p>
+            同样，也可以使用 <code>exclude</code> 查询参数排除那些匹配给定 XPath 的节点。
+            这对于缩减你需要抓取的数据量很有帮助（但同样请参见<a href="#tree">下文</a>）。
+            这个查询参数可以指定多次。
+          </p>
+          <p>
+            XPath 过滤功能很强大，可以只返回很少量的数据，但请注意，
+            服务器仍然需要先构建原始数据的完整 DOM，这可能会导致较大的内存峰值。
+            为了避免给服务器带来过大负担，建议优先使用 <code>tree</code> 参数，
+            或者将 <code>xpath</code> 参数与 <code>tree</code> 参数结合使用。
+            当二者一起使用时，会先基于 <code>tree</code> 参数过滤数据并构建 DOM，
+            然后再应用 XPath 计算最终返回值。这样通常可以显著减小内存中构建的 DOM 体积。
+          </p>
+        </dd>
+
+        <dt><a href="json?pretty=true">JSON API</a></dt>
+        <dd>
+          以 JSON 形式访问相同数据，适合 JavaScript 场景。可使用 <code>tree</code> 参数。
+        </dd>
+
+        <dt><a href="python?pretty=true">Python API</a></dt>
+        <dd>
+         <p>
+           以 Python 形式访问相同数据，适合 Python 客户端。
+           它可以通过 <code>ast.literal_eval(urllib.urlopen("...").read())</code>
+           解析为 Python 对象，得到的对象树与 JSON 对应的数据结构一致。
+         </p>
+        </dd>
+      </dl>
+
+      <p>
+        关于 Jenkins 远程 API 的更多信息，请参见
+        <a href="https://www.jenkins.io/redirect/remote-api">官方文档</a>。
+      </p>
+
+      <h2>控制获取的数据量</h2>
+      <p>
+        <a name="tree" />
+        <code>tree</code> 查询参数允许你使用类似 XPath 的路径表达式，
+        显式指定并只获取你真正关心的信息。
+
+        其值应为要包含的属性名列表；子属性放在方括号内。
+        可尝试 <a href="xml?tree=jobs[name],views[name,jobs[name]]">tree=jobs[name],views[name,jobs[name]]</a>
+        来仅查看任务列表（只显示名称）以及视图列表（显示名称和其中包含的任务）。
+        <strong>注意</strong>：对于数组类型属性（例如此处的 <code>jobs</code>），
+        名称必须使用原始复数形式，而不是其在 XML 中显示出来的单数形式（<code>&amp;lt;job&amp;gt;</code>）。
+        这对例如 <a href="json?tree=jobs[name]">json?tree=jobs[name]</a> 这样的用法也更自然：
+        JSON 写出器不会做复数转单数的变形，因为数组会被显式表示。
+      </p>
+      <p>
+        对于数组类型属性，还支持范围说明。例如，<code>tree=jobs[name]{0,10}</code>
+        将获取前 10 个任务的名称。范围说明支持以下几种形式：
+      </p>
+      <ul>
+        <li>
+          <b>{M,N}</b>：从第 M 个元素（含）到第 N 个元素（不含）。
+        </li>
+        <li>
+          <b>{M,}</b>：从第 M 个元素（含）到最后一个元素。
+        </li>
+        <li>
+          <b>{,N}</b>：从第一个元素（含）到第 N 个元素（不含），等同于 {0,N}。
+        </li>
+        <li>
+          <b>{N}</b>：只获取第 N 个元素，等同于 {N,N+1}。
+        </li>
+      </ul>
+
+      <p>
+        获取更多数据的另一种方式是使用 <code>depth=N</code> 查询参数。
+        它会返回指定深度以内的全部数据。
+        你可以比较一下 <a href="xml">depth=0</a> 和 <a href="xml?depth=1">depth=1</a>，
+        自己看看它们之间的差异。还要注意：较小深度值返回的数据，始终是较大深度值返回数据的子集。
+      </p>
+      <p>
+        由于数据量可能很大，<code>depth</code> 参数更适合用来探索 Jenkins 能返回哪些数据。
+        一旦确定了你真正想获取的内容，建议再通过 <code>tree</code> 参数精确指定所需数据。
+      </p>
+
+      <st:include it="${it.bean}" page="_api.jelly" optional="true" />
+    </l:main-panel>
+  </l:layout>
+</j:jelly>

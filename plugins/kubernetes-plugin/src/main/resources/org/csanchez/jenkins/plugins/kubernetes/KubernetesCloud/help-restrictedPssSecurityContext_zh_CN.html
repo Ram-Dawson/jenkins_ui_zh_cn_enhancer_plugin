@@ -1,0 +1,13 @@
+<div>
+    <p>在 Agents namespace 中结合 <code>restricted</code> <a href="https://kubernetes.io/docs/concepts/security/pod-security-standards/">Pod Security Standard</a> 使用 <a href="https://kubernetes.io/docs/concepts/security/pod-security-admission/">Pod Security Admission</a> 时，若不以 <code>securityContext</code> 覆盖 container 定义，<code>jnlp</code> container 无法被调度。</p>
+    <p>此选项会向 <code>jnlp</code> container 自动注入适用于 <code>restricted</code> <a href="https://kubernetes.io/docs/concepts/security/pod-security-standards/">Pod Security Standard</a> 的 <code>securityContext</code>。</p>
+    <p>启用此选项时，<code>jnlp</code> container 使用以下 <code>securityContext</code>：</p>
+    <pre>securityContext:
+  allowPrivilegeEscalation: false
+  capabilities:
+    drop:
+    - ALL
+  runAsNonRoot: true
+  seccompProfile:
+    type: RuntimeDefault</pre>
+</div>

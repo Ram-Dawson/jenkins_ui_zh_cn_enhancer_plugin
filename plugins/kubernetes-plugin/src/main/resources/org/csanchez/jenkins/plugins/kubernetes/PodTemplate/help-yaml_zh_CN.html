@@ -1,0 +1,10 @@
+<p>Pod API Object 的原始 YAML。通常，上方配置字段中以非空值设置的 Pod 字段会优先，因为它们会与此 YAML 合并；但对于数组（如 Volumes 或 Tolerations），YAML 中的对象会追加到现有列表。</p>
+<p>允许使用完整 Pod API Object YAML 表示的一部分，但必须提供足够结构以便构造对象。</p>
+<p>例如，可以从以下内容开始：</p>
+<pre>
+apiVersion: v1
+kind: Pod
+spec:
+....
+</pre>
+<p>也可以仅按需指定 <code>metadata:</code> 和 <code>spec:</code> 区域。</p>

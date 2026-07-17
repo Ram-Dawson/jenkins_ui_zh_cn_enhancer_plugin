@@ -1,0 +1,9 @@
+<p>指定在 container 内运行的 shell，用于处理 Jenkins 发出的运行可执行文件、设置环境变量等基础设施请求。</p>
+<p>这<strong>不会</strong>影响运行用户代码（例如 <code>sh</code> step）所使用的 shell。要在 Linux 上以特定 shell 运行脚本，请使用解释器行：</p>
+<pre><code>sh '''#!/bin/bash
+for x in {0..9}; do echo x; done
+'''</code></pre>
+<p>或者直接使用子进程和外部版本管理的脚本：</p>
+<pre><code>sh 'bash ci.sh'</code></pre>
+<p>在 Windows 上，请选择 <code>bat</code> 或 <code>powershell</code> step。</p>
+<p>对于在 Linux 上运行的 Pod，默认值为 <code>sh</code>，它应位于 <code>$PATH</code> 中；对于在 Windows 上运行的 Pod，默认值为 <code>cmd</code>，它应位于 <code>%Path%</code> 中。通常不应覆盖。</p>

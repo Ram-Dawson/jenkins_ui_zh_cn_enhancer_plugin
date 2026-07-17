@@ -1,0 +1,4 @@
+<?jelly escape-by-default='true'?>
+<div>
+  此插件用于控制 Jenkins 的界面语言。
+</div>

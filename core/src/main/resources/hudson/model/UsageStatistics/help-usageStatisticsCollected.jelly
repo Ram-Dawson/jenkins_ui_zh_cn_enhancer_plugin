@@ -1,0 +1,71 @@
+<?jelly escape-by-default='true'?>
+<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:l="/lib/layout" xmlns:t="/lib/hudson" xmlns:f="/lib/form">
+    <p>
+        对于任何项目来说，了解软件的实际使用方式都很重要，但在开源项目中追踪使用数据本身并不容易。
+        匿名使用统计正是为了解决这一需求。
+        启用后，Jenkins 会定期向 Jenkins 项目发送相关信息。
+        Jenkins 项目会利用这些信息来确定开发优先级。
+    </p>
+    <j:invokeStatic className="jenkins.security.FIPS140" method="useCompliantAlgorithms" var="fips"/>
+    <j:if test="${!fips}">
+        <h3>常规使用统计</h3>
+        <div>
+            <p>Jenkins 会上报以下常规使用统计信息：</p>
+            <ul>
+                <li>你的 Jenkins 版本</li>
+                <li>对于控制器和每个 Agent，其操作系统类型及执行器数量</li>
+                <li>已安装的插件及其版本</li>
+                <li>各类条目类型的数量，例如任务等</li>
+            </ul>
+            <p>
+                这些信息<b>不会</b>包含任何可识别个人身份的数据。
+                Jenkins 仅会上报 HTTP 协议本身天然会暴露的信息，例如 IP 地址。
+                这些使用统计会被汇总、按月更新，并发布到 <a href="https://stats.jenkins.io">stats.jenkins.io</a>
+            </p>
+        </div>
+    </j:if>
+    <h3>遥测数据收集</h3>
+    <div>
+        <p>
+            <j:choose>
+                <j:when test="${fips}">
+                    Jenkins 项目会通过特定试验收集遥测数据，用于指导后续开发。
+                </j:when>
+                <j:otherwise>
+                    除了上面列出的常规使用统计外，Jenkins 项目还会通过特定试验收集遥测数据，用于指导后续开发。
+                </j:otherwise>
+            </j:choose>
+            每个试验都有明确目的和结束日期；一旦到期，就会停止收集，与已安装的 Jenkins 或插件版本无关。
+            试验完成后，其结果可能会被汇总并分享给开发者社区。
+        </p>
+
+        <j:invokeStatic className="jenkins.telemetry.Telemetry" method="all" var="collectors"/>
+        <j:invokeStatic className="jenkins.telemetry.Telemetry" method="isAnyTrialActive" var="anyTrialActive"/>
+        <j:invokeStatic className="java.time.LocalDate" method="now" var="now"/>
+        <j:choose>
+            <j:when test="${!anyTrialActive}">
+                <p>当前没有正在进行中的试验。</p>
+            </j:when>
+            <j:otherwise>
+                <p>
+                    当前实例中，以下试验现已启用或将在未来启用：
+                </p>
+                <dl>
+                    <j:forEach items="${collectors}" var="collector">
+                        <j:if test="${not collector.end.isBefore(now)}">
+                            <dt>${collector.displayName}</dt>
+                            <dd>
+                                <st:include it="${collector}" optional="true" page="description.jelly"/>
+                                <p>
+                                    开始日期：${collector.start}
+                                    <br/>
+                                    结束日期：${collector.end}
+                                </p>
+                            </dd>
+                        </j:if>
+                    </j:forEach>
+                </dl>
+            </j:otherwise>
+        </j:choose>
+    </div>
+</j:jelly>

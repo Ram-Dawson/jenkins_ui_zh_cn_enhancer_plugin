@@ -1,0 +1,21 @@
+<?jelly escape-by-default='true'?>
+<j:jelly xmlns:j="jelly:core">
+  <dt>$${GIT_BRANCH}</dt>
+  <dd>
+    展开为已构建分支的名称。
+
+    <dl>
+      <dt>all</dt>
+      <dd>
+        指定后，将列出指向给定提交的所有分支。
+        默认情况下，此令牌只展开为其中一个分支。
+      </dd>
+      <dt>fullName</dt>
+      <dd>
+        指定后，此令牌会展开为完整分支名称，例如 `origin/master`。
+        否则只展开为短名称，例如 `master`。
+      </dd>
+    </dl>
+
+  </dd>
+</j:jelly>

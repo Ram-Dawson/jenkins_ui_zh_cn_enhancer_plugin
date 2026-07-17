@@ -1,0 +1,4 @@
+<?jelly escape-by-default='true'?>
+<div>
+    此插件允许 Jenkins 管理员控制低权限用户可以运行哪些进程内脚本。
+</div>

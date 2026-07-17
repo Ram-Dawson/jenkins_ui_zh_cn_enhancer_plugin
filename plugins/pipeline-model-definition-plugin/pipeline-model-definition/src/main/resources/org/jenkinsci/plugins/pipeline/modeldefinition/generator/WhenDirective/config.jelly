@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?jelly escape-by-default='true'?>
+<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:f="/lib/form" xmlns:l="/lib/layout">
+    <f:block>
+        有关 <code>when</code> 指令的更多信息，请参阅
+        <a href="https://jenkins.io/doc/book/pipeline/syntax/#when" target="_blank">在线文档</a>。
+    </f:block>
+    <f:dropdownList name="conditional" title="${descriptor.displayName}" help="${descriptor.getHelpFile('conditional')}">
+        <j:forEach var="d" items="${descriptor.getDescriptors()}" varStatus="loop">
+            <f:dropdownListBlock value="${loop.index}" title="${d.name}: ${d.displayName}"
+                                 selected="false" staplerClass="${d.clazz.name}" lazy="d,it">
+                <l:ajax>
+                    <j:set var="instance" value="${null}" />
+                    <j:set var="descriptor" value="${d}" />
+                    <st:include from="${d}" page="${d.configPage}" optional="true" />
+                </l:ajax>
+            </f:dropdownListBlock>
+        </j:forEach>
+    </f:dropdownList>
+    <f:entry field="beforeOptions">
+        <f:checkbox title="在 options 之前求值"/>
+    </f:entry>
+    <f:entry field="beforeInput">
+        <f:checkbox title="在 input 之前求值"/>
+    </f:entry>
+    <f:entry field="beforeAgent">
+        <f:checkbox title="在 agent 之前求值"/>
+    </f:entry>
+</j:jelly>

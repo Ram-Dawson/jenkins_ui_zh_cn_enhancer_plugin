@@ -1,0 +1,13 @@
+<p>控制 Git 插件在通过 SSH 连接时如何验证主机提供的密钥。</p>
+<dl>
+    <dt>Known hosts file (default)</dt>
+    <dd>使用 <code>known_hosts</code> 文件验证所有主机密钥。</dd>
+    <dt>Accept first connection</dt>
+    <dd>如果此前未见过该主机，则自动将其主机密钥添加到 <code>known_hosts</code> 文件；不允许连接到已见过但密钥已变更的主机。</dd>
+    <dd>注意：使用临时节点（例如云节点）时，此策略在节点上使用 <code>known_hosts</code> 文件，实际效果等同于 <strong>No verification</strong>。为避免此问题，可以在创建节点镜像或模板时预先配置包含所有相关主机的 <code>known_hosts</code>，或使用 <strong>Manually provided keys</strong>、<strong>Known hosts file</strong> 策略。</dd>
+    <dd>命令行 Git 使用此选项需要 OpenSSH 7.6 或更高版本。</dd>
+    <dt>Manually provided keys</dt>
+    <dd>使用在此手动配置的一组密钥验证所有主机密钥。</dd>
+    <dt>No verification (not recommended)</dt>
+    <dd>完全不验证主机密钥。</dd>
+</dl>

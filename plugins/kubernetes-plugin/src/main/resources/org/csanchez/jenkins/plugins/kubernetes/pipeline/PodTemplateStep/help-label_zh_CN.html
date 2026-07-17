@@ -1,0 +1,11 @@
+<div>
+    要绑定的 Jenkins node label。留空时会自动生成，并在 step 内绑定到变量 <code>POD_LABEL</code>，可将其作为 <code>node</code> step 的参数。<br/>
+    示例：
+    <pre>
+        podTemplate(...) {
+            node(POD_LABEL) {
+                // some steps
+            }
+        }
+    </pre>
+</div>

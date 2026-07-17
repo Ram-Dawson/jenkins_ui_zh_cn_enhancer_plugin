@@ -1,0 +1,6 @@
+<?jelly escape-by-default='true'?>
+<l:ajax xmlns:l="/lib/layout">
+  <div>
+    不同的安全域对组名有不同的约定。最好的方式是登录后前往<a href="${rootURL}/whoAmI" target="_new">此诊断页面</a>，查看您所属的组名。
+  </div>
+</l:ajax>

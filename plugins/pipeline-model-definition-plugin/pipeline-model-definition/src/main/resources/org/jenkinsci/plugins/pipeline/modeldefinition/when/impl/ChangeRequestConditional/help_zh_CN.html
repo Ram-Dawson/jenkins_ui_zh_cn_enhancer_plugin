@@ -1,0 +1,11 @@
+<p>
+    当当前构建属于变更请求时执行该阶段。
+    <em>（也就是 GitHub 和 Bitbucket 中的 <strong>Pull Request</strong>、GitLab 中的 <strong>Merge Request</strong>、Gerrit 中的 <strong>Change</strong> 等。）</em>
+</p>
+<p>
+    与 <code>branch</code> 和 <code>tag</code> 类似，它会检查 branch-api 插件提供的 <code>CHANGE_*</code> 环境变量；
+    你也可以通过各个独立参数来匹配这些值。如果指定了多个参数，则这些参数都必须匹配。
+</p>
+<p>
+    如果不传任何参数，即 <code>when { changeRequest() }</code>，则只检查 <code>CHANGE_ID</code> 是否存在且有值。
+</p>

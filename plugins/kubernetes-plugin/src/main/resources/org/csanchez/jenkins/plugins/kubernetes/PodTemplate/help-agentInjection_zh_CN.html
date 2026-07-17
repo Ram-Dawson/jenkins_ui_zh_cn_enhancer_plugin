@@ -1,0 +1,19 @@
+<p>此选项允许提供不继承 Jenkins agent 镜像的 container 镜像。</p>
+<p>提供的 container 镜像必须安装无图形界面的 JRE，且版本应与当前 Jenkins 版本兼容。</p>
+<p>agent 将使用 <code>JENKINS_JAVA_BIN</code> 环境变量指定的 Java 安装；未定义时使用 <code>PATH</code> 中的安装。</p>
+<p>启用此选项会覆盖 agent container 中定义的命令和参数。</p>
+<p>示例</p>
+<pre>
+podTemplate(agentContainer:'foo',
+            agentInjection: true,
+            yaml:'''
+spec:
+  containers:
+  - name: foo
+    image: eclipse-temurin:22.0.2_9-jre
+''') {
+  node(POD_LABEL) {
+    sh 'true'
+  }
+}
+</pre>

@@ -1,0 +1,10 @@
+<?jelly escape-by-default='true'?>
+<j:jelly xmlns:j="jelly:core"
+  xmlns:f="/lib/form">
+  <f:entry title="${%Strategy}" field="strategyId">
+    <f:select default="1"/>
+    <div class="alert alert-warning" role="alert">
+      更改命名策略会导致项目和构建日志被删除
+    </div>
+  </f:entry>
+</j:jelly>

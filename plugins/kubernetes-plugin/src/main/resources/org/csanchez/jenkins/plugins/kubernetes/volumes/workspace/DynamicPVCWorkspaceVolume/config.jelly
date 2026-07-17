@@ -1,0 +1,23 @@
+<?jelly escape-by-default='true'?>
+<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:l="/lib/layout"
+         xmlns:t="/lib/hudson" xmlns:f="/lib/form">
+    <f:description>
+        <em>此功能已弃用。请改用通用临时卷，该卷可提供相同功能，且无需显式 RBAC 权限来创建持久卷声明（PVC）。</em>
+        <p>
+        使用指定参数动态分配 PVC，并在 Pod 删除时将其删除。请注意，与通常的 agent 置备相比，此操作要求 Jenkins controller 具有额外的 RBAC 权限。
+        </p>
+    </f:description>
+
+    <f:entry title="${%Storage Class Name}" field="storageClassName">
+        <f:textbox />
+    </f:entry>
+
+    <f:entry title="${%Requests Size}" field="requestsSize">
+        <f:textbox />
+    </f:entry>
+
+    <f:entry title="${%Access Modes}" field="accessModes">
+        <f:select default="ReadWriteOnce"/>
+    </f:entry>
+
+</j:jelly>

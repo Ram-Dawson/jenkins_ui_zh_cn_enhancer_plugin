@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?jelly escape-by-default='true'?>
+<j:jelly xmlns:j="jelly:core" xmlns:f="/lib/form">
+    <f:entry field="name" title="环境变量名称">
+        <f:textbox/>
+    </f:entry>
+    <f:entry field="value" title="环境变量的期望值">
+        <f:textbox/>
+    </f:entry>
+    <f:entry field="ignoreCase">
+        <f:checkbox title="比较时忽略大小写" checked="false"/>
+    </f:entry>
+</j:jelly>

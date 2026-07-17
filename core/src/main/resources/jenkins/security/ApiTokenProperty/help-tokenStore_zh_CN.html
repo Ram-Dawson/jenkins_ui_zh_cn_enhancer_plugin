@@ -1,0 +1,24 @@
+<div>
+  API Token 可用于发起需要认证的 CLI 或 REST API 调用。更多细节请参见
+  <a href="https://www.jenkins.io/redirect/api-token">我们的 Wiki</a>
+  。
+  <br />
+  每个 Token 关联的用户名都是你的 Jenkins 用户名。
+  <br />
+  <br />
+  为了更安全地管理 API Token，建议遵循以下做法：
+  <ul>
+    <li>
+      为每个应用使用不同的 Token。这样一旦某个应用被攻破，你可以单独吊销它所使用的 Token。
+    </li>
+    <li>
+      每 6 个月左右轮换一次 Token（可根据你的实际场景调整）。Jenkins 会显示一个与 Token 使用年限相关的提示标记。
+    </li>
+    <li>
+      像保护密码一样保护它，因为持有 Token 的人就能以你的身份访问 Jenkins。
+    </li>
+  </ul>
+  <div class="warning">
+    每次 Jenkins 重启时，未使用过的旧式 Token 的创建日期都会被重置，因此这些日期信息可能并不准确。
+  </div>
+</div>

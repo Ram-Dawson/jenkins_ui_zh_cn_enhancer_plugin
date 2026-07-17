@@ -1,0 +1,12 @@
+<div>
+  指定本地目录（相对于 <a href="ws" target="_blank" rel="noopener noreferrer">工作区根目录</a>）
+  将在其中检出 Git 仓库。如果留空，则为工作空间根目录本身
+  将被使用。
+  <p>
+  此扩展应该<strong>而不是</strong>在Jenkins Pipeline（声明式或脚本式）中使用。
+  Jenkins Pipeline 已经提供了检出子目录的标准技术。
+  使用 <a href="https://www.jenkins.io/doc/pipeline/steps/workflow-durable-task-step/#ws-allocate-workspace" target="_blank" rel="noopener noreferrer">ws</a> 和
+  <a href="https://www.jenkins.io/doc/pipeline/steps/workflow-durable-task-step/#dir-change-current-directory" target="_blank" rel="noopener noreferrer">目录</a>
+  在 Jenkins Pipeline 而不是这个扩展中。
+  </p>
+</div>

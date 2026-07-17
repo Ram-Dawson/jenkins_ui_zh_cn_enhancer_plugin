@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?jelly escape-by-default='true'?>
+<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:f="/lib/form" xmlns:l="/lib/layout">
+    <f:block>
+        有关 <code>input</code> 指令的更多信息，请参阅
+        <a href="https://jenkins.io/doc/book/pipeline/syntax/#input" target="_blank">在线文档</a>。
+    </f:block>
+    <j:set var="instance" value="${null}" />
+    <st:include from="${descriptor.inputDescriptor}" page="${descriptor.inputDescriptor.configPage}" />
+</j:jelly>

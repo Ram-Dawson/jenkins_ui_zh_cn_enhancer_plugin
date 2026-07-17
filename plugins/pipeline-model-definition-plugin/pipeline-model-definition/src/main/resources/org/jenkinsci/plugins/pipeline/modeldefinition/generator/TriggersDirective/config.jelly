@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?jelly escape-by-default='true'?>
+<j:jelly xmlns:j="jelly:core" xmlns:f="/lib/form" xmlns:dg="/org/jenkinsci/plugins/pipeline/modeldefinition/generator/DirectiveGenerator">
+    <f:block>
+        有关 <code>triggers</code> 指令的更多信息，请参阅
+        <a href="https://jenkins.io/doc/book/pipeline/syntax/#triggers" target="_blank">在线文档</a>。
+        <dg:symbol-hetero-list name="triggers" items="${instance.triggers}" descriptors="${descriptor.getDescriptors()}"
+                               hasHeader="true" oneEach="true" />
+    </f:block>
+</j:jelly>

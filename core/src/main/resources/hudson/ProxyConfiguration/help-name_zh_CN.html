@@ -1,0 +1,18 @@
+<div>
+  如果你的 Jenkins 服务器位于防火墙之后，无法直接访问互联网，并且服务器 JVM 也没有正确配置
+  <a
+    href="https://docs.oracle.com/javase/8/docs/technotes/guides/net/properties.html"
+  >
+    JDK 网络属性
+  </a>
+  来启用外网连接，那么你可以在这里填写 HTTP 代理服务器名称，让 Jenkins 代你安装插件。
+  请注意，Jenkins 在从更新中心下载插件时使用的是 HTTPS。
+
+  <p>
+    如果这里留空，表示 Jenkins 会尝试直接连接互联网。
+  </p>
+
+  <p>
+    如果你不确定该填写什么值，可以参考浏览器中的代理配置。
+  </p>
+</div>

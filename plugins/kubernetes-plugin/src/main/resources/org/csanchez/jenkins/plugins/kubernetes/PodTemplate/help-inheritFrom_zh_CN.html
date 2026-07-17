@@ -1,0 +1,7 @@
+<p>要继承的 Pod Template 的<b>名称</b>。</p>
+<p>Pod Template 可选择继承现有模板。这表示它会继承父模板的 node selector、service account、image pull secrets、container templates 和 volumes。</p>
+<p>覆盖 service account 和 node selector 时，会完全替换父模板的值。</p>
+<p>若添加到当前 Pod Template 的 container template 在<i>父</i>模板中有同名 container template，则会继承父 container template 的配置。<br/>找不到匹配项时，按原样添加该模板。</p>
+<p>Volume 继承方式与 Container Template 完全相同。</p>
+<p>Image Pull Secrets 会合并使用，即同时使用父模板和当前模板定义的全部 Secret。</p>
+<p>默认情况下，Pod Template 继承外层 Pod Template 定义。<br/>可使用空字符串停止继承。</p>

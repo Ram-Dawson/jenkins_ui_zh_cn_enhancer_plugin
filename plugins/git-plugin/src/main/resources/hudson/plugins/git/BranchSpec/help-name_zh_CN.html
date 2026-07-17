@@ -1,0 +1,95 @@
+<div>
+  <p>如果您想跟踪仓库中的特定分支，请指定分支。
+  如果留空，将检查所有分支是否有更改并构建。</p>
+
+  <p>最安全的方法是使用 <code>refs/heads/&lt;branchName&gt;</code> 语法。这样预期的分支
+  是明确的。</p>
+
+  <p>如果您的分支名称中包含 <code>/</code>，请确保使用上面的完整参考。未呈现时
+  如果使用完整路径，插件将仅使用最后一个斜杠右侧的字符串部分。
+  含义 <code>foo/bar</code> 实际上会匹配 <code>bar</code>.</p>
+
+  <p>如果您使用带有斜线的通配符分支说明符（例如 <code>release/</code>），
+  您需要在分支名称中指定原始仓库
+  确保更改被采纳。所以例如<code>origin/release/</code></p>
+
+  <p>可能的选项：
+    <ul>
+      <li> <strong><code>&lt;branchName&gt;</code></strong><br/>
+           跟踪/检出指定的分支。如果不明确，则采用第一个结果，这不一定是
+           预期的一个。最好使用 <code>refs/heads/&lt;branchName&gt;</code>。<br/>
+           例如<code>master</code>, <code>feature1</code>, ...
+      </li>
+      <li> <strong><code>refs/heads/&lt;branchName&gt;</code></strong><br/>
+           跟踪/检查指定分支。<br/>
+           例如<code>refs/heads/master</code>, <code>refs/heads/feature1/master</code>, ...
+      </li>
+      <li> <strong><code>&lt;remoteRepoName&gt;/&lt;branchName&gt;</code></strong><br/>
+           跟踪/检出指定的分支。如果不明确，则采用第一个结果，这不一定是
+           预期的一个。<br/>
+           最好使用 <code>refs/heads/&lt;branchName&gt;</code>。<br/>
+           例如<code>origin/master</code>
+      </li>
+      <li> <strong><code>remotes/&lt;remoteRepoName&gt;/&lt;branchName&gt;</code></strong><br/>
+           跟踪/检查指定分支。<br/>
+           例如<code>remotes/origin/master</code>
+      </li>
+      <li> <strong><code>refs/remotes/&lt;remoteRepoName&gt;/&lt;branchName&gt;</code></strong><br/>
+           跟踪/检查指定分支。<br/>
+           例如<code>refs/remotes/origin/master</code>
+      </li>
+      <li> <strong><code>&lt;tagName&gt;</code></strong><br/>
+           这不起作用，因为标签不会被识别为标签。<br/>
+           请改用 <code>refs/tags/&lt;tagName&gt;</code>。<br/>
+           例如<code>git-2.3.0</code>
+      </li>
+      <li> <strong><code>refs/tags/&lt;tagName&gt;</code></strong><br/>
+           跟踪/检查指定标签。<br/>
+           例如<code>refs/tags/git-2.3.0</code>
+      </li>
+      <li> <strong><code>&lt;commitId&gt;</code></strong><br/>
+           检查指定的提交。<br/>
+           例如<code>5062ac843f2b947733e6a3b105977056821bd352</code>, <code>5062ac84</code>, ...
+      </li>
+      <li> <strong><code>${ENV_VARIABLE}</code></strong><br/>
+           也可以使用环境变量。在这种情况下，变量被评估并且
+           结果的使用如上所述。<br/>
+           例如<code>${TREEISH}</code>, <code>refs/tags/${TAGNAME}</code>, ...
+      </li>
+      <li> <strong><code>&lt;Wildcards&gt;</code></strong><br/>
+           语法格式为：<code>REPOSITORYNAME/BRANCH</code>。
+           另外，<code>BRANCH</code>被识别为<code>*/BRANCH</code>的简写，'*'被识别为通配符，
+           '**' 被识别为包含分隔符 '/' 的通配符。因此，<code>origin/branches*</code> 会
+           匹配 <code>origin/branches-foo</code> 但不匹配 <code>origin/branches/foo</code>，而 <code>origin/branches**</code> 会
+           匹配 <code>origin/branches-foo</code> 和 <code>origin/branches/foo</code>。
+      </li>
+      <li> <strong><code>:&lt;regular expression&gt;</code></strong><br/>
+           语法格式为：<code>:regexp</code>。
+           要构建的分支中的正则表达式语法将仅
+           构建那些名称与常规名称匹配的分支
+           表达式。<br/>
+           示例：<br/>
+            <ul>
+                <li><code>:^(?!(origin/prefix)).*</code>
+                  <ul>
+                    <li>匹配：<code>origin</code>或<code>origin/master</code>或<code>origin/feature</code></li>
+                    <li>不匹配：<code>origin/prefix</code>或<code>origin/prefix_123</code>或<code>origin/prefix-abc</code></li>
+                  </ul>
+                </li>
+                <li><code>:origin/release-\d{8}</code>
+                  <ul>
+                    <li>匹配：<code>origin/release-20150101</code></li>
+                    <li>不匹配：<code>origin/release-2015010</code>或<code>origin/release-201501011</code>或<code>origin/release-20150101-something</code></li>
+                  </ul>
+                </li>
+                <li><code>:^(?!origin/master$|origin/develop$).*</code>
+                  <ul>
+                    <li>匹配：<code>origin/branch1</code>或<code>origin/branch-2</code>或<code>origin/master123</code>或<code>origin/develop-123</code></li>
+                    <li>不匹配：<code>origin/master</code> 或 <code>origin/develop</code></li>
+                  </ul>
+                </li>
+            </ul>
+      </li>
+    </ul>
+  </p>
+</div>

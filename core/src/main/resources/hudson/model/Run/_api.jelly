@@ -1,0 +1,74 @@
+<!--
+The MIT License
+
+Copyright (c) 2004-2009, Sun Microsystems, Inc., Kohsuke Kawaguchi
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+-->
+
+<?jelly escape-by-default='true'?>
+<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:l="/lib/layout" xmlns:t="/lib/hudson" xmlns:f="/lib/form" xmlns:i="jelly:fmt">
+  <h2>其他有用的 URL</h2>
+  <dl>
+    <dt><a href="../buildNumber">构建编号</a></dt>
+    <dd>
+      这个 URL 会以 <code>text/plain</code> 格式返回构建编号。
+    </dd>
+    <dt><a href="../buildTimestamp">构建时间戳</a></dt>
+    <dd>
+      这个 URL 会返回构建时间戳。你也可以使用 <code>format</code> 查询参数
+      来控制日期格式，其格式遵循
+      <a href="https://docs.oracle.com/javase/8/docs/api/java/text/SimpleDateFormat.html"><code>SimpleDateFormat</code> 格式模式</a>。
+      （<a href="../buildTimestamp?format=yyyy/MM/dd">示例</a>）
+      你还可以使用 <code>Accept-Language</code> HTTP 头来控制
+      日期格式化时所使用的语言环境。
+    </dd>
+  </dl>
+
+  <h2>访问渐进式控制台输出</h2>
+  <p>
+    你可以通过带参数重复发起 GET 请求来获取仍在进行中的控制台输出。
+    基本做法是向
+    <a href="../logText/progressiveText?start=0">此 URL</a> 发起 GET 请求（如果你
+    希望得到可直接放进 &amp;lt;pre> 标签中的 HTML，则可使用 <a href="../logText/progressiveHtml?start=0">此 URL</a>）。
+    <code>start</code> 参数用于控制开始读取的字节偏移量。
+  </p><p>
+    响应中会包含一段控制台输出，以及表示
+    字节偏移量（原始日志文件）的 <code>X-Text-Size</code> 头。
+    这个数值就是你下一次请求时应继续使用的 <code>start</code> 参数。
+    <code>X-ConsoleAnnotator</code> 头也需要一并传给下一次请求，以便恢复控制台注释。
+  </p><p>
+    如果响应还包含 <code>X-More-Data: true</code> 头，说明构建
+    仍在进行中，你需要在稍作等待后重复请求。Jenkins UI 会在 5 秒后发起下一次请求。
+    当该头不存在时，就说明你已经获取完全部数据，构建也已经完成。
+  </p><p>
+    支持使用 <code>multipart/form-data</code> 响应的流式/无缓冲变体：添加请求头 <code>Accept: multipart/form-data</code> 即可启用该模式。
+    响应将分为两部分：第一部分会带有 <code>Content-Disposition: form-data;name=text</code>，并返回日志字节内容。第二部分会带有 <code>Content-Disposition: form-data;name=meta</code>，并以 JSON 对象描述日志字节，包含以下字段：
+    <ul>
+      <li><code>completed</code> 是 <code>X-More-Data</code> 的反义值</li>
+      <li><code>start</code> 是在使用 <code>?start=-1000</code> 追踪最后 n 个字节时最终确定的起始位置</li>
+      <li><code>end</code> 等价于 <code>X-Text-Size</code></li>
+      <li><code>consoleAnnotator</code> 等价于 <code>X-ConsoleAnnotator</code></li>
+      <li><code>startFromNewLine</code> 会在起始位置被移动到第一条新行时设为 <code>true</code>（例如 tailing 时）</li>
+    </ul>
+    这种流式模式会使用更大的磁盘读取块（64KiB，而不是 1KiB），并且不会把换行符统一规范化为 CRLF（这在过去是为了兼容 Internet Explorer）。
+    <br />
+    可选参数 <code>?searchNewLineUntil=previousStart</code> 可在从日志起始位置继续获取更多字节时，用于搜索先前内容中的第一条新行。示例：若要从一个 3MiB 日志文件末尾取最后 150KiB，可能会因为 tailing 时的新行检测而返回 3MiB-142KiB ~ 3000000。此时再用 <code>?start=2000000</code> 和 <code>?searchNewLineUntil=3000000</code> 请求更多 1MiB 内容。这样可以确保新行检测在上一次响应的起始位置停止，而不会再次从同一条“第一条”新行处返回。
+  </p>
+</j:jelly>

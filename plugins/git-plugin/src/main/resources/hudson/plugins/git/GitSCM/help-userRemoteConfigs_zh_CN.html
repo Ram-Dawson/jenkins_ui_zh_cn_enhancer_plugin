@@ -1,0 +1,38 @@
+<div>
+  指定要跟踪的仓库。这可以是 URL 或本地文件路径。
+  请注意，对于超级项目（具有子模块的仓库），只有本地文件
+  路径或完整的 URL 有效。  以下是有效 git URL 的示例。
+  <ul>
+    <li>ssh://git@github.com/github/git.git</li>
+    <li>git@github.com:github/git.git（ssh 协议的缩写）</li>
+    <li>ssh://user@other.host.com/~/repos/R.git（访问 repos/R.git
+    用户主目录中的仓库）</li>
+    <li>https://github.com/github/git.git</li>
+  </ul>
+  <br>
+  如果仓库是一个超级项目，
+  克隆子模块的位置取决于仓库是否
+  是裸露的或非裸露的（即有一个工作目录）。
+  <ul>
+    <li>如果超级项目是裸的，子模块的位置将为
+    取自 <em>.gitmodules</em>.</li>
+    <li>如果超级项目是<strong>不是</strong>裸露，则假设
+    仓库对其每个子模块进行了适当的克隆和检出。
+    因此，子模块将直接从类似的路径中获取
+    <code>${SUPER_PROJECT_URL}/${SUBMODULE}</code>，而不是依赖
+    来自 <em>.gitmodules</em>.</li> 的信息
+  </ul>
+
+  对于超级项目的本地 URL/路径，
+  <em>git rev-parse --is-bare-repository</em>
+  用于检测超级工程是否裸露。
+  <br>
+  对于超级项目的远程 URL，URL 的结尾决定是否
+  假设有一个裸露或非裸露的仓库：
+  <ul>
+    <li>如果远程 URL 以 <em>.git</em> 结尾，则 <em>non</em> 裸仓库是
+    假设。</li>
+    <li>如果远程 URL <strong>NOT</strong> 以 <em>.git</em> 结尾，则
+    假定仓库。</li>
+  </ul>
+</div>

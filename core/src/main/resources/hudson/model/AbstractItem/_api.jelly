@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+The MIT License
+
+Copyright 2013 Jesse Glick.
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+-->
+
+<?jelly escape-by-default='true'?>
+<j:jelly xmlns:j="jelly:core">
+    <h2>获取或更新 config.xml</h2>
+    <p>
+        若要以编程方式获取当前条目的配置（<code>config.xml</code>），请通过 <code>GET</code> 访问<a href="../config.xml" target="_blank">此 URL</a>。
+        若要基于修改后的 <code>config.xml</code> 文件以编程方式更新配置，可以向<a href="../config.xml">同一个 URL</a> 发送 <code>POST</code> 请求，请求头需包含 <code>Content-Type: text/xml</code>，并将 XML 作为请求体提交。
+    </p>
+    <h2>删除任务</h2>
+    <p>
+        若要以编程方式删除该任务，请向<a href="../" target="_blank">此 URL</a> 发送 HTTP <code>DELETE</code> 请求。
+    </p>
+</j:jelly>

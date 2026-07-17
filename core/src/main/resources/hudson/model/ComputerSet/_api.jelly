@@ -1,0 +1,12 @@
+<?jelly escape-by-default='true'?>
+<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler">
+  <h2>创建节点</h2>
+  <p>
+    若要创建新节点，请将 <code>config.xml</code> POST 到 <a href="../createItem">此 URL</a>。如果你希望覆盖 XML 中设置的节点名称，
+    可以额外附带查询参数 <code>name=<i>NODENAME</i></code>。你需要发送
+    <code>Content-Type: application/xml</code> 请求头。若创建成功，将返回 200 状态码；
+    若失败，则会返回 4xx/5xx 状态码。<code>config.xml</code> 是 Jenkins 用于在文件系统中存储节点的格式，
+    因此你可以在 Jenkins home 目录中查看示例，或者通过
+    <code>/computer/<i>NODENAME</i>/config.xml</code> 获取现有节点的 XML 配置作为参考。
+  </p>
+</j:jelly>

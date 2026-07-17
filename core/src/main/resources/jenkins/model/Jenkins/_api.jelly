@@ -1,0 +1,52 @@
+<!--
+The MIT License
+
+Copyright (c) 2004-2009, Sun Microsystems, Inc., Kohsuke Kawaguchi
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+-->
+
+<?jelly escape-by-default='true'?>
+<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:l="/lib/layout" xmlns:t="/lib/hudson" xmlns:f="/lib/form" xmlns:i="jelly:fmt">
+
+  <st:include page="/hudson/model/ModifiableItemGroup/_api.jelly"/>
+
+  <st:include page="/hudson/model/ModifiableViewGroup/_api.jelly"/>
+
+  <h2>构建队列</h2>
+  <p>
+    构建队列有其<a href="../queue/api/">独立的 API</a>。
+  </p>
+
+  <h2>负载统计</h2>
+  <p>
+    Jenkins 的整体负载统计有其<a href="../overallLoad/api/">独立的 API</a>。
+  </p>
+
+  <h2>重启 Jenkins</h2>
+  <p>
+    Jenkins 可通过向<a href="../quietDown">此 URL</a>发送带可选查询参数 <code>message</code> 的 POST 请求进入“安静模式”，该参数可作为原因说明。
+    你也可以再次向此 URL 发送请求来更新原因说明。
+    你可以通过向<a href="../cancelQuietDown">此 URL</a>发送 POST 请求来取消该模式。在 Jenkins 能够自行重启的环境中
+    （例如 Jenkins 作为 Windows 服务安装时），向<a href="../restart">此 URL</a>发送 POST
+    将启动重启流程，或者向<a href="../safeRestart">此 URL</a>发送 POST，以在没有任务运行后再重启。
+    （在某些情况下，Pipeline 构建可能会让 Jenkins 在短时间内无法立即重启；但如果发生这种情况，它们会在下一个可用时机暂停，并在 Jenkins 重启后恢复。）
+    所有这些 URL 都需要 Overall/Manage 权限（通常通过 Overall/Administer 授予）。
+  </p>
+</j:jelly>

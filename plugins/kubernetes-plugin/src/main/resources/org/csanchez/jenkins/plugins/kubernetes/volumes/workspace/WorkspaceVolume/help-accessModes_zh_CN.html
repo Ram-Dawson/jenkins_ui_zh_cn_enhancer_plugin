@@ -1,0 +1,1 @@
+PersistentVolume 可按资源提供商支持的任何方式挂载到 host。不同提供商具有不同能力，每个 PV 的访问模式都设置为该 Volume 支持的具体模式。例如，NFS 可以支持多个读写客户端，但特定 NFS PV 可能在 Server 上以只读方式导出。每个 PV 都有描述其能力的一组访问模式。默认值为 ReadWriteOnce。

@@ -1,0 +1,30 @@
+<div>
+  归档构建产物（例如发布用 zip 文件或 jar 文件），以便后续下载。归档后的文件可直接从 Jenkins 页面访问。
+  <br />
+  通常情况下，只要构建日志仍被保留，Jenkins 就会一并保留对应构建的产物；但如果你不需要旧产物、希望节省磁盘空间，也可以单独控制。
+</div>
+<br />
+<div>
+  需要注意的是，Maven 类型任务会自动归档其生成的 Maven 产物。这里配置的任何产物都会在此基础上额外归档。
+  自动归档 Maven 产物的行为可以在 Maven 高级选项中关闭。
+</div>
+
+<br />
+
+<div>
+  当所有参数都设为 `true` 时（其中部分参数默认就是 `true`），
+  <a
+    href="https://www.jenkins.io/redirect/pipeline-snippet-generator"
+    target="_blank"
+    rel="noopener noreferrer"
+  >
+    Pipeline Snippet Generator
+  </a>
+  会生成如下示例：
+  <pre><code>archiveArtifacts artifacts: '**/*.txt',
+                   allowEmptyArchive: true,
+                   fingerprint: true,
+                   onlyIfSuccessful: true
+
+</code></pre>
+</div>

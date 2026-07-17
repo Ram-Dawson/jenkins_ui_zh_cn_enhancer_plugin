@@ -1,0 +1,40 @@
+<div>
+  你可以使用类似
+  <code>module/dist/**/*.zip</code>
+  这样的通配符。
+  具体格式请参见
+  <a href="https://ant.apache.org/manual/Types/fileset.html">
+    Ant fileset 的 includes 属性
+  </a>
+  ，但这里唯一支持的分隔符是
+  <code>,</code>
+  （逗号）。
+  基准目录是
+  <a href="ws/">工作区</a>
+  。
+  你只能归档位于工作区中的文件。
+</div>
+
+<br />
+<div>
+  <p>下面是一些 Pipeline 用法示例：</p>
+  <ul>
+    <li>
+      如何从指定目录归档多个构建产物：
+
+      <pre><code>archiveArtifacts artifacts: 'target/*.jar'</code></pre>
+    </li>
+    <br />
+
+    <li>
+      如何使用不同模式归档多组构建产物：
+      <pre><code>archiveArtifacts artifacts: 'target/*.jar, target/*.war'</code></pre>
+    </li>
+    <br />
+    <li>
+      如何归档多层目录中的构建产物：
+      <pre><code>archiveArtifacts artifacts: '**/*.jar'</code></pre>
+    </li>
+    <br />
+  </ul>
+</div>

@@ -1,0 +1,42 @@
+<div>
+  Jenkins 可以记录文件的“指纹”（通常是 jar 文件），以追踪这些文件是在何时何地生成、又在何时何地被使用。
+  当 Jenkins 中存在彼此依赖的项目时，这项功能可以帮助你快速回答下面这类问题：
+
+  <ul>
+    <li>
+      我的硬盘里有一个
+      <code>foo.jar</code>
+      ，它是 FOO 项目的哪一次构建产物？
+    </li>
+    <li>
+      BAR 项目依赖于 FOO 项目产出的
+      <code>foo.jar</code>
+      。
+    </li>
+    <li>
+      <ul>
+        <li>
+          BAR #51 中使用的是哪一次构建生成的
+          <code>foo.jar</code>
+          ？
+        </li>
+        <li>
+          哪一次 BAR 构建包含了我对
+          <code>foo.jar</code>
+          #32 的缺陷修复？
+        </li>
+      </ul>
+    </li>
+  </ul>
+
+  <p>
+    要使用这项功能，所有相关项目都需要启用并记录指纹。
+    这里的“相关项目”不仅包括生成该文件的项目，也包括使用该文件的项目。
+  </p>
+
+  <p>
+    更多细节请参见
+    <a href="https://www.jenkins.io/redirect/fingerprint">这份文档</a>
+    。
+  </p>
+</div>

@@ -1,0 +1,15 @@
+<div>
+    <p>这些访问令牌充当对 <code>notifyCommit</code> 端点的请求进行身份验证的方式。
+    <p>默认情况下，对 <code>notifyCommit</code> 的所有请求都必须在 <code>token</code> 查询参数中包含有效令牌。但是，可以禁用
+        <a href="https://www.jenkins.io/doc/book/managing/system-properties/">系统属性</a>的要求：
+    <pre><code>hudson.plugins.git.GitStatus.NOTIFY_COMMIT_ACCESS_CONTROL</code></pre>
+    <br/>
+    它有两种模式：
+    <ul>
+        <li><code>disabled-for-polling</code> - 允许未经身份验证的请求，只要它们仅请求轮询在
+            <code>url</code> 查询参数。禁止尝试通过提供立即安排构建的未经身份验证的请求
+            <code>sha1</code> 查询参数。</li>
+        <li><code>disabled</code> - 完全禁用访问令牌机制并允许所有请求 <code>notifyCommit</code>
+            未经身份验证。 <b>此选项不安全，不推荐。</b></li>
+    </ul>
+</div>

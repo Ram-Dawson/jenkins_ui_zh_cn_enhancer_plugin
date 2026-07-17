@@ -1,0 +1,16 @@
+<?jelly escape-by-default='true'?>
+<j:jelly xmlns:j="jelly:core">
+  <dt>$${GIT_REVISION}</dt>
+  <dd>
+    展开为指向已构建提交的 Git SHA1 提交 ID。
+
+    <dl>
+      <dt>length=N（可选，默认值为 40）</dt>
+      <dd>
+        指定提交 ID 的长度。完整 SHA1 提交 ID 长度为 40 个字符，通常截断为 8 或 12 个字符，
+        这样一般可提供足够的唯一性且更易阅读。
+      </dd>
+    </dl>
+
+  </dd>
+</j:jelly>

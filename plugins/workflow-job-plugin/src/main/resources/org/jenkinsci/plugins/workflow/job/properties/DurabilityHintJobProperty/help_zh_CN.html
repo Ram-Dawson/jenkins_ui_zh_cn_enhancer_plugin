@@ -1,0 +1,24 @@
+<div>
+    <p>
+        此设置允许用户修改运行中 Pipeline 的默认持久化模式。大多数情况下，这需要在性能与 Jenkins 意外中断后恢复运行中流水线的能力之间做权衡。
+
+        <br><br><strong>这会带来什么影响？</strong>
+    <ul>
+        <li>此前，运行中的 Pipeline 会持续写入数据，以便即使 Jenkins 发生故障也能恢复。此设置允许用户调整这种写入行为。</li>
+        <li>更高性能、较低持久性的模式会让运行中的 Pipeline <strong>大幅</strong>减少向磁盘写入数据的频率。</li>
+        <li>对于包含大量步骤或复杂逻辑的 Pipeline，减少写盘频率可以显著缩短构建时间。对于大部分时间都在等待 shell 或 batch 脚本执行的流水线，这种差异会相对不明显。</li>
+        <li>如果运行中的 Pipeline 在未完成时遇到 Jenkins 非正常关闭，较低持久性设置 <strong>可能</strong>会丢失数据：</li>
+        <ul>
+            <li>“正常”关闭指 Jenkins 按完整关闭流程退出，例如访问 <code>http://[jenkins-server]/exit</code></li>
+            <li>“异常”关闭例如使用 <code>kill -9</code> 终止 Jenkins 进程，可能导致未完成的 Pipeline 无法持久化数据</li>
+        </ul>
+        <li>无法持久化数据的 Pipeline 可能无法恢复，也可能无法在 Blue Ocean、Stage View 等界面中正常显示。</li>
+        <li>无论持久性设置如何，Pipeline 通常仍会写入日志数据。</li>
+        <li>某些模式会使用“原子写入”选项，这有助于在发生故障时避免流水线构建文件被覆盖或只写入一部分。</li>
+        <li>原子写入可能会给文件系统带来更大压力，因此在网络存储等场景下，不启用它反而可能更快。</li>
+    </ul>
+    </p>
+    <p>
+        <strong>注意：</strong> 默认值也可以在 `Manage Jenkins > Configure System` 中全局设置。
+    </p>
+</div>

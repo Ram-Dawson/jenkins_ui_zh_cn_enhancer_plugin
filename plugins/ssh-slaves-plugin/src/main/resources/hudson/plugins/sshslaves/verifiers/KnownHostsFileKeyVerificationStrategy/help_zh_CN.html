@@ -1,0 +1,2 @@
+<p>检查 Jenkins 执行所使用用户的 known_hosts 文件（~/.ssh/known_hosts），确认其中是否存在与当前连接匹配的条目。</p>
+<p>此方法不会更新 Known Hosts 文件，而是将其作为只读来源。需要对 Jenkins controller 上相应用户账户拥有适当访问权限的人员按需更新该文件；可以使用 <code>ssh <i>hostname</i></code> 命令发起连接并适当更新该文件。</p>

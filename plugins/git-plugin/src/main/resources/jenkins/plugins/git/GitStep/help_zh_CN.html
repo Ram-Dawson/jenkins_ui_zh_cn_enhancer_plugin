@@ -1,0 +1,102 @@
+<div>
+    <p><code>git</code> 步骤会将指定仓库克隆到 Pipeline 工作区。</p>
+    <p>使用<a href="https://www.jenkins.io/redirect/pipeline-snippet-generator">Pipeline 语法片段生成器</a>为 Git 步骤生成示例 Pipeline 脚本。
+    更高级的检出操作需要<a href="https://www.jenkins.io/doc/pipeline/steps/params/scmgit/">使用 <code>scmGit</code> 参数的 <code>checkout</code> 步骤</a>而不是 <code>git</code> 步骤。
+    <code>git</code> 步骤的示例包括：<ul>
+      <li><a href="#git-step-with-defaults">使用默认值的 Git 步骤</a></li>
+      <li><a href="#git-step-with-https-and-branch">使用 https 和特定分支的 Git 步骤</a></li>
+      <li><a href="#git-step-with-ssh-and-credential">使用 ssh 和私钥凭证的 Git 步骤</a></li>
+      <li><a href="#git-step-with-https-and-changelog">禁用 https 和变更日志的 Git 步骤</a></li>
+      <li><a href="#git-step-with-git-and-polling">禁用 Git 协议和轮询的 Git 步骤</a></li>
+    </ul>请参阅<a href="#argument-descriptions">参数描述</a>了解更多详情。</p>
+
+    <p><code>git</code> 步骤是功能更强大的<a href="https://www.jenkins.io/doc/pipeline/steps/params/scmgit/"><code>checkout</code> 步骤及其 <code>scmGit</code> 参数</a>的简化写法：
+<pre>
+checkout scmGit(branches: [[name: 'main']],
+    userRemoteConfigs: [[url: 'https://git-server/user/repository.git']])
+</pre></p>
+
+    <hr>
+
+    <p>
+    <strong>笔记：</strong>这<a href="https://www.jenkins.io/doc/pipeline/steps/params/scmgit/"><code>checkout</code> 步骤与 scmGit 参数</a>是<strong>首选 SCM 检出方式</strong>。
+    它提供了比 <code>git</code> 步骤更多的功能。</p>
+    <p>使用<a href="https://www.jenkins.io/redirect/pipeline-snippet-generator">Pipeline 语法片段生成器</a>为检出步骤生成示例 Pipeline 脚本。</p>
+    <p>这<a href="https://www.jenkins.io/doc/pipeline/steps/params/scmgit/"><code>checkout</code> 步骤与 scmGit 参数</a>可以在许多无法使用 <code>git</code> 步骤的情况下使用。
+    请参阅<a href="https://plugins.jenkins.io/git/#plugin-content-extensions">Git 插件文档</a>有关可用选项的详细说明<a href="https://www.jenkins.io/doc/pipeline/steps/params/scmgit/"><code>checkout</code> 步骤的 <code>scmGit</code> 参数</a>。
+    例如， <code>git</code> 步骤确实<strong>不是</strong>支持：<ul>
+      <li>SHA-1 检出</li>
+      <li>标签检出</li>
+      <li>子模块检出</li>
+      <li>检出稀疏</li>
+      <li>大文件检出 (LFS)</li>
+      <li>参考仓库</li>
+      <li>分支合并</li>
+      <li>仓库标记</li>
+      <li>自定义 refspec</li>
+      <li>超时配置</li>
+      <li>针对非默认参考的变更日志计算</li>
+      <li>枯枝修剪</li>
+    </ul>
+    </p>
+
+    <hr>
+
+    <strong><a id="git-step-with-defaults">示例：使用默认值的 Git 步骤</a></strong>
+    <p>使用 https 协议、无凭据和 master 分支从 Git 插件源仓库检出。</p><p>这<a href="https://www.jenkins.io/redirect/pipeline-snippet-generator">Pipeline 语法片段生成器</a>生成这个例子：
+<pre>
+git 'https://github.com/jenkinsci/git-plugin.git'
+</pre></p>
+
+    <strong><a id="git-step-with-https-and-branch">示例：使用 https 和特定分支的 Git 步骤</a></strong>
+    <p>使用 https 协议、无凭据和特定分支 (stable-2.492) 从 Jenkins 源仓库检出。
+    请注意，这必须是本地分支名称，例如“master”或“develop”。</p>
+    <p>
+    <strong><code>git</code> 步骤不支持的分支名称</strong>
+    <ul>
+      <li>远程分支名称如“origin/master”和“origin/develop”是<strong>不支持</strong>作为分支参数</li>
+      <li>SHA-1 哈希值是<strong>不支持</strong>作为分支参数</li>
+      <li>标签名称是<strong>不支持</strong>作为分支参数</li>
+    </ul>
+    <p>远程分支名称、SHA-1 哈希值和标签名称<strong>受到支持</strong>按通用目的<a href="https://www.jenkins.io/doc/pipeline/steps/params/scmgit/"><code>checkout</code> 步骤的 <code>scmGit</code> 参数</a>.
+    </p>
+    <p>这<a href="https://www.jenkins.io/redirect/pipeline-snippet-generator">Pipeline 语法片段生成器</a>生成这个例子：
+<pre>
+git branch: 'stable-2.492',
+    url: 'https://github.com/jenkinsci/jenkins.git'
+</pre></p>
+
+    <strong><a id="git-step-with-ssh-and-credential">示例：使用 ssh 和私钥凭证的 Git 步骤</a></strong>
+    <p>使用 ssh 协议、私钥凭证和 master 分支从 git 客户端插件源仓库检出。
+    如果通过ssh协议访问远程git仓库，则凭证必须是私钥凭证。
+    如果使用 http 或 https 协议访问远程 Git 仓库，则凭据必须是用户名/密码凭据。</p><p>这<a href="https://www.jenkins.io/redirect/pipeline-snippet-generator">Pipeline 语法片段生成器</a>生成这个例子：
+<pre>
+git credentialsId: 'my-private-key-credential-id',
+    url: 'git@github.com:jenkinsci/git-client-plugin.git'
+</pre></p>
+
+    <strong><a id="git-step-with-https-and-changelog">示例：禁用 https 和更改日志的 Git 步骤</a></strong>
+    <p>使用 https 协议从 Jenkins 源仓库检出，无凭据，主分支和更改日志计算已禁用。
+    如果变更日志是 <code>false</code>，则不会为此作业计算变更日志。
+    如果变更日志为 <code>true</code> 或未设置，则将计算变更日志。
+    请参阅<a href="https://github.com/jenkinsci/workflow-scm-step-plugin/blob/master/README.md#changelogs">工作流程 scm 步骤文档</a>了解更多变更日志详细信息。</p><p>这<a href="https://www.jenkins.io/redirect/pipeline-snippet-generator">Pipeline 语法片段生成器</a>生成这个例子：
+<pre>
+git changelog: false,
+    url: 'https://github.com/jenkinsci/credentials-plugin.git'
+</pre></p>
+
+    <strong><a id="git-step-with-git-and-polling">示例：使用 https 协议并禁用轮询的 Git 步骤</a></strong>
+    <p>使用 https 协议从 Jenkins 平台贴标机仓库检出，无凭据，主分支，并且不轮询更改。
+    如果 poll 为 <code>false</code>，则不会轮询远程仓库以了解更改。
+    如果 poll 为 <code>true</code> 或未设置，则将轮询远程仓库以了解更改。
+    请参阅<a href="https://github.com/jenkinsci/workflow-scm-step-plugin/blob/master/README.md#polling">工作流程 scm 步骤文档</a>了解更多投票详情。</p><p>这<a href="https://www.jenkins.io/redirect/pipeline-snippet-generator">Pipeline 语法片段生成器</a>生成这个例子：
+<pre>
+git poll: false,
+    url: 'https://github.com/jenkinsci/platformlabeler-plugin.git'
+</pre></p>
+
+    <hr>
+
+    <strong><a id="argument-descriptions">参数说明</a></strong><!-- Automatically generated argument docs inserted here -->
+    <!-- See https://jenkins.io/doc/pipeline/steps/git/ -->
+    <!-- See also https://jenkins-url/pipeline-syntax/html#argument-descriptions --></div>

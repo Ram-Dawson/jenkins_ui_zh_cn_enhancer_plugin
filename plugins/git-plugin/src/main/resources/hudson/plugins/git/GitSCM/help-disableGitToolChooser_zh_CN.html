@@ -1,0 +1,15 @@
+<p>
+  Jenkins Git 插件提供了多种 git 实现。
+  <a href="https://git-scm.com/">命令行 git</a> 是所有 Git 插件功能的原始实现和参考实现。
+  <a href="https://www.eclipse.org/jgit/">JGit</a> 是使用 Eclipse 基金会的 JGit 项目的命令行 git 功能子集的纯 Java 实现。
+  JGit 提供了命令行 git 的许多功能，无需安装命令行 git。
+</p>
+<p>
+  如果代理上同时启用了 JGit 和命令行 git，则 Git 插件将使用“git 工具选择器”来选择首选的 git 实现。
+  首选的 git 实现取决于仓库的大小和作业请求的 Git 插件功能。
+  如果仓库大小<strong>小于</strong>，则JGit仓库大小阈值和作业的git功能都在JGit中实现，则使用JGit。
+  如果仓库大小 <strong> 大于 </strong> JGit 仓库大小阈值或作业需要 JGit 中未实现的 git 功能，则使用命令行 git。
+</p>
+<p>
+  当通过单击此复选框禁用 git 工具选择器时，将使用作业中指定的 git 实现，而不考虑仓库大小或实现的功能。
+</p>

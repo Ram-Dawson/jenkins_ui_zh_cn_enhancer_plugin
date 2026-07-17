@@ -1,0 +1,12 @@
+<div>
+  <p>
+  启用此选项后可直接连接 TCP agent listener 端口，无需连接 HTTP(S) 端口以获取部分元数据。
+  </p>
+  <p>
+  该选项适用于 Controller 未暴露 HTTP(S) 端口的场景，例如 <a target="_blank" href="https://github.com/jenkinsci/jenkinsfile-runner">Jenkinsfile Runner</a>；也可用于略微优化连接。
+  </p>
+  <p>
+    <b>注意：</b>在 <i>Direct Connection</i> 模式下，若“TCP port for inbound agents”配置为 <i>Random</i>，agent 无法在 Controller 重启后重新连接。<br/>
+    <b>注意：</b><i>Direct Connection</i> 不支持当前提供的 <code>jenkins/inbound-agent:windowsservercore-ltsc2022</code> 镜像。
+  </p>
+</div>

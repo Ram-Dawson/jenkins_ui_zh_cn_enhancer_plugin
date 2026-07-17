@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?jelly escape-by-default='true'?>
+<j:jelly xmlns:j="jelly:core" xmlns:l="/lib/layout" xmlns:f="/lib/form" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:local="local">
+    <l:layout title="${%Pipeline Syntax: Directive Generator}" norefresh="true">
+        <st:include page="sidepanel"/>
+        <l:main-panel>
+            <f:form name="config">
+                <f:section title="${%Overview}"/>
+                <f:block>
+                    <b>指令生成器</b>可用于为声明式流水线指令生成对应的 Pipeline 代码，例如 <code>agent</code>、<code>options</code>、<code>when</code> 等。
+                    先从下拉框中选择你感兴趣的指令，再在新出现的表单中填写该指令的内容。填写完你希望用于该指令的选项和取值后，
+                    点击<b>生成声明式指令</b>，下方文本框中就会出现对应的 Pipeline 代码。对于顶层指令，你可以将该代码直接复制到
+                    <code>Jenkinsfile</code> 的 <code>pipeline</code> 块中；对于阶段级指令，则可以复制到某个 <code>stage</code> 块中。
+                    如需进一步了解各类指令，请参阅
+                    <a href="https://jenkins.io/doc/book/pipeline/syntax/" target="_blank">在线语法文档</a>。
+                </f:block>
+                <f:section title="${%Directives}"/>
+                <!-- Similar to f:dropdownDescriptorSelector, but adds fallback content to block, and JENKINS-25130 adds per-selection help: -->
+                <j:set var="item" value="${it.getItem(request2)}"/>
+                <d:taglib uri="local">
+                    <d:tag name="listDirectives">
+                        <j:set var="inStage" value="false"/>
+                        <j:forEach var="descriptor" items="${directives}">
+                            <j:if test="${descriptor.isTopLevel()}">
+                            <f:dropdownListBlock title="${descriptor.name}: ${descriptor.displayName}" staplerClass="${descriptor.clazz.name}" lazy="descriptor,item,inStage">
+                                <l:ajax>
+                                    <j:set var="it" value="${item}"/>
+                                    <j:set var="instance" value="${null}"/>
+                                    <j:set var="help" value="${descriptor.helpFile}"/>
+                                    <j:set var="inStage" value="false"/>
+                                    <j:if test="${help != null}">
+                                        <tr>
+                                            <td colspan="3"/>
+                                            <f:helpLink url="${help}"/>
+                                        </tr>
+                                        <f:helpArea/>
+                                    </j:if>
+                                    <st:include from="${descriptor}" page="${descriptor.configPage}" optional="true">
+                                        <f:block>
+                                            ${%This directive has not yet defined any visual configuration.}
+                                        </f:block>
+                                    </st:include>
+                                </l:ajax>
+                            </f:dropdownListBlock>
+                            </j:if>
+                        </j:forEach>
+                    </d:tag>
+                </d:taglib>
+                <f:dropdownList name="prototype" title="${%Sample Directive}">
+                    <local:listDirectives directives="${it.getDirectives()}"/>
+                </f:dropdownList>
+                <j:set var="id" value="${h.generateId()}"/>
+                <f:block>
+                    <span class="directive-generator-button-reference-holder" data-id="${id}" data-fullurl="${rootURL}/${it.GENERATE_URL}" />
+                    <input id="prototypeButton_${id}" type="button" value="${%Generate Declarative Directive}" class="submit-button primary"/>
+                    <f:textarea id="prototypeText_${id}" readonly="true" style="margin-top: 10px" />
+                    <l:copyButton text="" clazz="jenkins-hidden jenkins-!-margin-top-1 copyPrototypeButton_${id}"/>
+                    <st:adjunct includes="org.jenkinsci.plugins.pipeline.modeldefinition.generator.DirectiveGenerator.indexScript"/>
+                </f:block>
+            </f:form>
+        </l:main-panel>
+    </l:layout>
+</j:jelly>

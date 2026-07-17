@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?jelly escape-by-default='true'?>
+<j:jelly xmlns:j="jelly:core">
+    <p>
+        <code>pipeline</code> step 允许您以更结构化的方式定义 Pipeline。更多信息请参阅<a href="https://github.com/jenkinsci/pipeline-model-definition-plugin/wiki/Getting-Started">Wiki</a>。
+    </p>
+</j:jelly>

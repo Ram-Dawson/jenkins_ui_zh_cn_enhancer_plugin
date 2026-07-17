@@ -7,6 +7,16 @@
 Simplified Chinese Localization for Jenkins core and plugins.  
 See [JEP-216](https://github.com/jenkinsci/jep/blob/master/jep/216/README.adoc) for design details.
 
+## Repository Layout
+
+This repository includes localization resources for both Jenkins core and a subset of plugins, but they are separated by directory:
+
+- `core/src/main/resources/` for Jenkins core
+- `cli/src/main/resources/` for Jenkins CLI
+- `plugins/<plugin-id>/src/main/resources/` for plugin-specific resources
+
+See [docs/resource-layout.md](docs/resource-layout.md) for the maintenance layout and rules.
+
 ## Out of the box
 
 We offer you an out-of-the-box solution. If you're going to install a fresh Jenkins, please [check here](https://github.com/jenkins-zh/docker-zh).
@@ -22,7 +32,7 @@ Jenkins. The command is `jcli plugin upload`.
 
 If you are interested in localization, please check [Chinese Localization SIG](https://www.jenkins.io/sigs/chinese-localization/) first.
 
-All Chinese characters will convert to ASCII. It's hard to read. So you could use [online tools](https://native2ascii.net/).
+Chinese resource files use UTF-8 without a BOM. Keep Chinese characters readable in source files and do not convert them with `native2ascii`.
 
 Everyone should follow the [translation specification](https://github.com/jenkins-zh/translation-spec/blob/master/specification.md).
 

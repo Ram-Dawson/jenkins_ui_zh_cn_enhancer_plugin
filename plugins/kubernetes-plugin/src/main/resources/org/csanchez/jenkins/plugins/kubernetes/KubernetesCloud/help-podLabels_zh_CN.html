@@ -1,0 +1,11 @@
+<div>
+    插件启动的所有 Pod 的<a href="https://kubernetes.io/docs/concepts/overview/working-with-objects/labels">标签</a>。与这些标签匹配的 Pod 会计入<strong>并发限制</strong>。
+    <p>未配置时，默认会为所有 Pod 创建 <code>jenkins=slave</code> 标签。</p>
+    <p>示例：
+        <ul>
+            <li><code>jenkins=slave</code></li>
+            <li><code>app.kubernetes.io/managed-by=jenkins</code></li>
+            <li><code>app.kubernetes.io/part-of=cicd</code></li>
+        </ul>
+    </p>
+</div>

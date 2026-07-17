@@ -1,0 +1,67 @@
+<!--
+The MIT License
+
+Copyright (c) 2004-2009, Sun Microsystems, Inc., Kohsuke Kawaguchi, Simon Wiest, Tom Huybrechts
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+-->
+
+<?jelly escape-by-default='true'?>
+<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler">
+
+  <st:include page="/hudson/model/AbstractItem/_api.jelly"/>
+
+  <h2>获取全部构建记录</h2>
+  <p>
+    为了避免在有人访问任务 API 时，Jenkins 必须从磁盘加载全部构建记录，<code>builds</code>
+    树默认只包含最新的 100 条构建记录。如果你确实需要获取全部构建，请访问 <code>allBuilds</code> 树，
+    例如拉取 <code>…/api/xml?tree=allBuilds[…]</code>。请注意，如果这个任务的构建数量很多，
+    这可能会带来明显的性能下降。
+  </p>
+
+  <h2>获取或更新任务描述</h2>
+  <p>
+    <a href="../description">此 URL</a>
+    可用于单独获取和设置任务描述。若要设置描述，请通过 POST 表单提交一个
+    名为 "description" 的参数。
+    <!-- TODO perhaps have this override documentation in AbstractItem suggesting ../submitDescription and xml?tree=description -->
+  </p>
+
+  <h2>触发构建</h2>
+  <p>
+    若要以编程方式调度一次新的构建，请向 <a href="../build?delay=0sec">此 URL</a> 发送 POST。
+    如果该构建带参数，请向 <a href="../buildWithParameters">此 URL</a> 发送 POST，并把参数作为表单数据提交。
+    无论哪种方式，成功进入队列后都会返回 201 状态码，并带有 <code>Location</code> HTTP 头，
+    该头会指向队列中对应条目的 URL。你可以轮询该队列条目下的 <code>api/json</code> 子 URL，
+    以跟踪排队任务的状态。一般来说，任务会经历若干状态变化，
+    最终要么被取消（查看 <code>cancelled</code> 布尔属性），要么开始执行
+    （查看 <code>executable</code> 字段，它通常会指向对应的 <code>Run</code> 对象）。
+  </p>
+  <p>
+    若要以编程方式触发 SCM 轮询，请向 <a href="../polling">此 URL</a> 发送 POST。
+  </p>
+  <p>
+    除非当前配置的安全域是 <em>None</em>，否则推荐做法是在请求中提供某个具备构建权限账号的用户名和 API token。
+    像 <code>curl</code> 和 <code>wget</code> 这类工具
+    都支持传递这些凭据。另一种可选方案（但已废弃）是
+    在任务配置中启用 “Trigger builds remotely” 部分。这样就可以通过在请求中附带名为 <code>token</code> 的参数来触发构建或轮询。
+    （一般情况下，可能还需要安装 <code>build-token-root</code> 插件。）
+  </p>
+
+</j:jelly>

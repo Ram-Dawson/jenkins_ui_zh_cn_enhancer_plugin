@@ -1,0 +1,23 @@
+<div>
+  <p>
+  <a href="https://git-scm.com/book/en/v2/Customizing-Git-Git-Hooks">Git hooks</a>允许在发生某些重要的 Git 仓库操作时调用脚本。
+  此配置控制 <i>Jenkins 代理</i> 上客户端钩子的执行。
+  建议在 Jenkins 代理上 <strong> 禁用 Git 钩子</strong>。
+  </p>
+  <p>
+  大多数 Git 仓库不使用仓库中的钩子，也不需要仓库钩子。
+  在需要仓库钩子的极少数情况下，强烈建议在 Jenkins 控制器和 Jenkins 代理上<strong>禁用它们</strong>。
+  </p>
+  <p>
+  克隆仓库时，客户端钩子<strong>不会</strong>被复制。
+  但是，客户端钩子可能会通过构建步骤或错误配置安装在仓库中。
+  </p>
+  <p>
+  如果代理上允许挂钩脚本，则在执行匹配的 Git 操作时，将执行安装在 Jenkins 代理上的仓库中的客户端钩子脚本。
+  例如，如果代理上允许挂钩，并且代理上的 Git 仓库包含 <code>post-checkout</code> 挂钩，则挂钩脚本将在该仓库中进行任何检出后在代理上运行。
+  如果代理上允许挂钩，并且代理上的 Git 仓库包含 <code>pre-auto-gc</code> 挂钩，则挂钩脚本将在任何自动 git 垃圾收集任务之前在代理上运行。
+  </p>
+  <p>
+  有关 Git 仓库钩子的更多详细信息，请参阅 <a href="https://git-scm.com/book/en/v2/Customizing-Git-Git-Hooks">“自定义 Git - Git 挂钩”</a>。
+  </p>
+</div>

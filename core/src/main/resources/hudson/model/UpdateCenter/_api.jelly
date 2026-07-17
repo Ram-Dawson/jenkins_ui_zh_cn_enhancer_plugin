@@ -1,0 +1,57 @@
+<!--
+The MIT License
+
+Copyright (c) 2012, CloudBees, Inc.
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+-->
+
+<?jelly escape-by-default='true'?>
+<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:l="/lib/layout" xmlns:t="/lib/hudson" xmlns:f="/lib/form" xmlns:i="jelly:fmt">
+  <h2>访问更新站点</h2>
+  <p>
+    更新中心是多个更新站点的集合。包含 Jenkins 更新信息的“主”更新站点
+    可通过 <a href="../coreSource/api">这里</a> 访问。除此之外，你也可以通过更新中心的
+    ID 来获取对应内容：
+  </p>
+  <ul>
+    <j:forEach var="site" items="${it.sites}">
+      <li>
+        <a href="../site/${site.id}/api">${site.id}</a>
+      </li>
+    </j:forEach>
+  </ul>
+  <a href="json?tree=sites[id,url]">这些数据也可以通过更适合程序读取的形式来获取</a>。
+
+  <h2>更新中心任务</h2>
+  <p>
+    当请求安装/更新插件或更新 Jenkins core 时，这些任务会被记录到更新中心，
+    并依次执行。Jenkins 将它们称为“更新中心任务”。当前任务列表如下：
+  </p>
+  <ul>
+    <j:forEach var="j" items="${it.jobs}" varStatus="loop">
+      <li>
+        <a href="../jobs/${loop.index}/api">${j}</a>
+      </li>
+    </j:forEach>
+  </ul>
+  <p>
+    每个任务都提供其各自的一组 API。
+  </p>
+</j:jelly>

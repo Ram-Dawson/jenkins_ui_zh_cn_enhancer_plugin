@@ -1,0 +1,46 @@
+<div>
+  决定项目的命名约定。
+  <dl>
+    <dt>完整项目路径</dt>
+    <dd>
+      此选项会使用组和项目的完整项目路径。
+      示例：
+      <ul>
+        <li><code><mark>my-group/</mark>my-project</code></li>
+        <li><code><mark>my-group/</mark>other-project</code></li>
+        <li><code><mark>my-group/my-subgroup/</mark>third-project</code></li>
+      </ul>
+    </dd>
+    <dt>项目名称</dt>
+    <dd>
+      此选项使用 GitLab 项目名称中的项目<b>名称</b>。
+      这是项目的“易读”名称，其中可以包含大小写、空格或其他特殊字符。
+      示例：
+      <ul>
+        <li>My Project</li>
+        <li>Other project</li>
+        <li>My Subgroup / Third project</li>
+      </ul>
+    </dd>
+    <dt>上下文项目路径</dt>
+    <dd>
+      此选项会使用含嵌套组的项目路径，但不包含 Jenkins 流水线中指定的顶级 <code>owner</code> 段。
+      当流水线的 <code>owner</code> 设置为 "my-group" 时，示例为：
+      <ul>
+        <li><code>my-project</code></li>
+        <li><code>other-project</code></li>
+        <li><code><mark>my-subgroup/</mark>third-project</code></li>
+      </ul>
+    </dd>
+    <dt>简单项目路径</dt>
+    <dd>
+      此选项使用<i>不</i>添加父组信息的项目路径。
+      示例：
+      <ul>
+        <li><code>my-project</code></li>
+        <li><code>other-project</code></li>
+        <li><code>third-project</code></li>
+      </ul>
+    </dd>
+  </dl>
+</div>

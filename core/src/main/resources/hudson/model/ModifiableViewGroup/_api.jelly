@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?jelly escape-by-default='true'?>
+<j:jelly xmlns:j="jelly:core">
+    <h2>创建视图</h2>
+    <p>
+        若要创建新视图，请将 <code>config.xml</code> POST 到 <a href="../createView">createView</a>，并附带
+        查询参数 <code>name=<i>VIEWNAME</i></code>。你需要发送 <code>Content-Type: application/xml</code>
+        请求头。若创建成功，将返回 200 状态码；
+        若失败，则会返回 4xx/5xx 状态码。<code>config.xml</code> 是 Jenkins 用于在文件系统中存储视图的格式，
+        因此你可以在 Jenkins home 目录中查看示例，或者通过
+        <code>/view/<i>VIEWNAME</i>/config.xml</code> 获取现有视图的 XML 配置作为参考。
+    </p>
+
+    <h2>复制视图</h2>
+    <p>
+        若要复制视图，请向 <a href="../createView">createView</a> 发送 POST 请求，并附带
+        三个查询参数 <code>name=<i>NEWVIEWNAME</i>&amp;mode=copy&amp;from=<i>FROMVIEWNAME</i></code>
+    </p>
+</j:jelly>

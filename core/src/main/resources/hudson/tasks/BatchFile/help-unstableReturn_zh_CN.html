@@ -1,0 +1,27 @@
+<div>
+  如果设置了该值，则对应的批处理
+  <code>errorlevel</code>
+  会被解释为“不稳定（unstable）”构建结果。
+  当最终的
+  <code>errorlevel</code>
+  与该值一致时，构建结果会被标记为不稳定，并继续执行后续步骤。
+  支持的取值范围与 Windows 类系统可表示的最宽
+  <code>errorlevel</code>
+  范围一致。
+  在 Windows NT4 及更高版本中，
+  <code>ERRORLEVEL</code>
+  以 4 字节有符号整数保存，因此最大值和最小值分别为
+  <code>2147483647</code>
+  和
+  <code>-2147483648</code>
+  。
+  较旧版本的 Windows 使用 2 字节；
+  DOS 类系统使用 1 字节，因此
+  <code>errorlevel</code>
+  范围为
+  <code>0-255</code>
+  。
+  值
+  <code>0</code>
+  会被忽略，不会将构建标记为不稳定，以保持默认行为一致。
+</div>

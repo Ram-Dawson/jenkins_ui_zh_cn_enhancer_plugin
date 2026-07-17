@@ -1,0 +1,174 @@
+<div>
+  这里定义一个逻辑表达式，用来决定哪些代理节点可以执行此项目的构建。
+  将该表达式与每个可用代理节点的名称和标签进行匹配后，结果只会是
+  <i>true</i>
+  或
+  <i>false</i>
+  。
+  如果表达式计算结果为
+  <i>true</i>
+  ，该代理节点就允许执行此项目的构建。
+  <p>
+    如果此项目应始终在某个特定代理节点上构建，或者始终在内置节点上构建，你可以直接填写该代理节点的名称，或者分别填写
+    <code>built-in</code>
+    。
+  </p>
+
+  <p>
+    不过，通常应尽量避免在这里直接使用代理节点的
+    <i>名称</i>
+    ，而应优先使用代理节点的
+    <i>标签</i>
+    。
+    正如每个代理节点的配置页面以及控制器的
+    <i>系统配置</i>
+    页面中所说明的，标签可以用来表示代理节点所运行的操作系统、CPU 架构，或其他任意特征。
+    <br />
+    使用标签的好处是：每当你新增、删除或重命名代理节点时，无需反复修改这里填写的标签表达式。
+  </p>
+
+  <p>
+    标签表达式既可以非常简单，只写一个
+    <b>标签</b>
+    或
+    <b>代理节点名称</b>
+    ，例如
+    <code>android-builder</code>
+    或
+    <code>linux-machine-42</code>
+    ；
+    <br />
+    也可以结合多种
+    <i>运算符</i>
+    组成更复杂的表达式。
+  </p>
+
+  <h3>支持的运算符</h3>
+  以下运算符按优先级从高到低排序：
+  <dl>
+    <dt><code>(expression)</code></dt>
+    <dd>括号，用于显式指定表达式的结合方式</dd>
+
+    <dt><code>!expression</code></dt>
+    <dd>
+      NOT，表示取反；
+      <code>expression</code>
+      的结果必须
+      <b>不</b>
+      为真
+    </dd>
+
+    <dt><code>a &amp;&amp; b</code></dt>
+    <dd>
+      AND，表示“并且”；
+      <code>a</code>
+      和
+      <code>b</code>
+      两个表达式都必须为真
+    </dd>
+
+    <dt><code>a || b</code></dt>
+    <dd>
+      OR，表示“或者”；
+      <code>a</code>
+      或
+      <code>b</code>
+      任一表达式为真即可
+    </dd>
+
+    <dt><code>a -> b</code></dt>
+    <dd>
+      “蕴含”运算符，等价于
+      <code>!a || b</code>
+      。
+      <br />
+      例如，
+      <code>windows -> x64</code>
+      可以理解为：“如果使用的是 Windows 代理节点，那么它
+      <i>必须</i>
+      是 64 位”；
+      但同时仍允许此项目在那些
+      <i>没有</i>
+      <code>windows</code>
+      标签的代理节点上运行，而不管它们是否还带有
+      <code>x64</code>
+      标签。
+    </dd>
+
+    <dt><code>a &lt;-> b</code></dt>
+    <dd>
+      “当且仅当”运算符，等价于
+      <code>a &amp;&amp; b || !a &amp;&amp; !b</code>
+      。
+      <br />
+      例如，
+      <code>windows &lt;-> dc2</code>
+      可以理解为：“如果使用的是 Windows 代理节点，那么它
+      <i>必须</i>
+      位于数据中心 2；而如果使用的不是 Windows 代理节点，那么它
+      <i>就不能</i>
+      位于数据中心 2。”
+    </dd>
+  </dl>
+
+  <h3>说明</h3>
+  <ul>
+    <li>
+      所有运算符都是左结合的，也就是说，
+      <code>a -> b -> c</code>
+      等价于
+      <code>(a -> b) -> c</code>
+      。
+    </li>
+    <li>
+      如果标签或代理节点名称中包含会与运算符语法冲突的字符，可以用引号包起来。
+      <br />
+      例如：
+      <code>"osx (10.11)" || "Windows Server"</code>
+      。
+    </li>
+    <li>
+      表达式中可以不写空白字符，但为了便于阅读，建议保留空格；Jenkins 在计算表达式时会忽略这些空白。
+    </li>
+    <li>
+      不支持通过通配符或正则表达式来匹配标签或代理节点名称。
+    </li>
+    <li>
+      空表达式始终会计算为
+      <i>true</i>
+      ，即匹配所有代理节点。
+    </li>
+  </ul>
+
+  <h3>示例</h3>
+  <dl>
+    <dt><code>built-in</code></dt>
+    <dd>此项目的构建只能在内置节点上执行</dd>
+    <dd></dd>
+
+    <dt><code>linux-machine-42</code></dt>
+    <dd>
+      此项目的构建只能在名称为
+      <code>linux-machine-42</code>
+      的代理节点上执行（或者执行在任何恰好带有
+      <code>linux-machine-42</code>
+      这个标签的机器上）
+    </dd>
+
+    <dt><code>windows &amp;&amp; jdk9</code></dt>
+    <dd>
+      此项目的构建只能在安装了 Java Development Kit 9 的 Windows 代理节点上执行（前提是安装了 JDK 9 的代理节点都被打上了
+      <code>jdk9</code>
+      标签）
+    </dd>
+
+    <dt><code>postgres &amp;&amp; !vm &amp;&amp; (linux || freebsd)</code></dt>
+    <dd>
+      此项目的构建只能在 Linux 或 FreeBSD 代理节点上执行，并且这些节点
+      <i>不能</i>
+      是虚拟机，同时还必须安装了 PostgreSQL（前提是每个代理节点都已正确打上对应标签，尤其是运行在虚拟机中的代理节点必须带有
+      <code>vm</code>
+      标签，此示例才会按预期工作）
+    </dd>
+  </dl>
+</div>

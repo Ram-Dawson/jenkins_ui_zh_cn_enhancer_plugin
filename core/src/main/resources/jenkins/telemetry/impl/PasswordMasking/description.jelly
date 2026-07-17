@@ -1,0 +1,16 @@
+<?jelly escape-by-default='true'?>
+<j:jelly xmlns:j="jelly:core">
+    本试验会收集当用户缺少条目、节点或视图的 Configure 权限时，密码字段掩码处理的详细信息：
+    <ul>
+        <li>类名</li>
+        <li>最近的祖先类名</li>
+        <li>发生掩码处理时的 Jelly 视图层级</li>
+        <li>各类组合出现的频次</li>
+    </ul>
+    <p>
+        这种掩码行为是一种兜底方案，正常情况下应当较少出现，因为为没有 Configure 权限的用户渲染内容的视图应改用只读模式。
+    </p>
+    <p>
+        此外，本试验还会收集已安装插件及其版本，以及 Jenkins 的版本。
+    </p>
+</j:jelly>

@@ -1,0 +1,19 @@
+<?jelly escape-by-default='true'?>
+<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:l="/lib/layout" xmlns:t="/lib/hudson" xmlns:f="/lib/form">
+
+
+<f:section name="timeout" title="全局构建超时">
+    <st:adjunct includes="hudson.plugins.build_timeout.nestedHelp"/>
+    <f:optionalBlock name="global" title="启用全局超时" checked="${instance.enabled}">
+        <f:dropdownDescriptorSelector title="${%Time-out strategy}" field="strategy" descriptors="${instance.allStrategies}" />
+        <f:entry title="${%Time-out actions}" field="operations">
+              <f:hetero-list name="operations" hasHeader="true"
+                descriptors="${instance.allOperations}" items="${instance.operations}"
+                addCaption="${%Add action}" />
+        </f:entry>
+        <f:optionalBlock field="overwriteable" name="overwriteable" inline="true"
+                title="允许各个任务覆盖此全局超时设置吗？" checked="${instance.overwriteable}"/>
+    </f:optionalBlock>
+
+</f:section>
+</j:jelly>

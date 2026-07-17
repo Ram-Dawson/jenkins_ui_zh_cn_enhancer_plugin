@@ -1,0 +1,20 @@
+<?jelly escape-by-default='true'?>
+<j:jelly xmlns:j="jelly:core">
+    本试验会收集有关当前内容安全策略（CSP）配置的基础信息：
+    <ul>
+        <li>面向用户的配置项是否设置为强制执行 CSP</li>
+        <li>当前启用的 <code>CspHeaderDecider</code>，它大致对应 Jenkins 的运行方式，以及是否设置了与 CSP 相关的系统属性</li>
+        <li>当前的 Content Security Policy 响应头（<code>Content-Security-Policy</code> 或 <code>Content-Security-Policy-Report-Only</code>）</li>
+        <li>已知的 <code>Contributor</code>，也就是参与生成 CSP 规则的扩展</li>
+        <li>已知的 <code>AdvancedConfiguration</code>，也就是新增 CSP 配置选项的扩展</li>
+        <li>已设置的各项指令（例如 <code>img-src</code>）及其取值的字节长度</li>
+    </ul>
+
+    <p>
+        <strong>本试验不会收集实际的 CSP 规则内容。</strong>
+    </p>
+    <p>
+        此外，本试验还会收集已安装插件及其版本，以及 Jenkins 的版本。
+        这些数据将用于了解 CSP 防护的实际使用广度。
+    </p>
+</j:jelly>

@@ -1,0 +1,11 @@
+<div>
+    <p>此设置控制此 Pod Template 的 Jenkins 构建完成后如何保留 agent Pod。除“Default”外的值会覆盖插件的 Pod Retention 设置。可用策略如下：</p>
+    <ol>
+        <li>Always：始终保留 agent Pod。</li>
+        <li>Default：使用插件的 Pod Retention 设置。</li>
+        <li>Never：始终删除 agent Pod。</li>
+        <li>Evicted：仅在构建期间被驱逐时保留 agent Pod（例如 Node-pressure）。</li>
+        <li>On Failure：构建期间失败时保留 agent Pod。</li>
+    </ol>
+    <p><strong>注意：</strong>Kubernetes 管理员负责管理保留的 agent Pod，Jenkins Kubernetes 插件不会删除它们。</p>
+</div>

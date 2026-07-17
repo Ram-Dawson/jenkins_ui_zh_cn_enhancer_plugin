@@ -1,0 +1,7 @@
+<?jelly escape-by-default='true'?>
+<j:jelly xmlns:j="jelly:core">
+    Stapler 是 Jenkins 使用的 Web 框架。
+    为了帮助开发该框架即将到来的重大版本演进，本试验会收集 Stapler 处理 HTTP 请求方式的相关信息。
+    除了 Stapler 请求处理过程中涉及的类、方法以及 Stapler 相关资源文件的引用外，本试验还会收集已安装插件的名称、它们的版本，以及 Jenkins core 的版本。
+    它<strong>不会</strong>收集 URL 或任何用户数据。
+</j:jelly>

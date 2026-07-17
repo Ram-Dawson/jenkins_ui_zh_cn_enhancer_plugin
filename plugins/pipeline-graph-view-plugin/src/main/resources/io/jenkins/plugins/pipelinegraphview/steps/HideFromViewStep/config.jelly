@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?jelly escape-by-default='true'?>
+<j:jelly xmlns:j="jelly:core" xmlns:f="/lib/form">
+  <p>你可以使用 <code>hideFromView</code> 步骤包裹特定的流水线步骤，将它们标记为在视图中隐藏。</p>
+
+  <p>在阶段筛选器中，你可以切换隐藏步骤的显示与隐藏；它们默认是隐藏的。</p>
+
+</j:jelly>

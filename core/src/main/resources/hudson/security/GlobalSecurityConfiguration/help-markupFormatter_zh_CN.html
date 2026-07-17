@@ -1,0 +1,31 @@
+<div>
+  <p>
+    Jenkins 会在作业、视图、构建等对象上展示用户提供的描述内容。
+    标记格式化器用于控制这些描述的渲染方式。
+  </p>
+  <p>
+    “纯文本”是默认格式化器，通常会按输入时的原样来展示描述内容。
+  </p>
+  <p>
+    插件也可以提供额外的标记格式化器，以支持 HTML 或其他标记语言。
+  </p>
+  <p>
+    <strong>注意：</strong>
+    有些描述内容可能来自你未必会立刻想到的来源，例如：
+  </p>
+  <ul>
+    <li>任何在 Jenkins 中拥有账号的用户都可以设置自己的个人描述</li>
+    <li>Pipeline 以及其他类型作业中的构建步骤，也可以被配置为设置当前构建的描述</li>
+  </ul>
+  <p>
+    如果使用会将用户输入原样渲染为 HTML 的标记格式化器，可能会带来
+    <a
+      href="https://en.wikipedia.org/wiki/Cross-site_scripting"
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      跨站脚本攻击
+    </a>
+    风险。
+  </p>
+</div>

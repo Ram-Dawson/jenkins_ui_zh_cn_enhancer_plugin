@@ -1,0 +1,12 @@
+<?jelly escape-by-default='true'?>
+<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:l="/lib/layout" xmlns:f="/lib/form">
+  <l:settings-subpage title="命令 ${command.name}" permission="${app.READ}" includeBreadcrumb="true" noDefer="true">
+    <div class="jenkins-page-description"><j:out value="${h.escape(command.longDescription)}"/></div>
+    <f:section title="${%Command}">
+      <j:set var="commandArgs" value="${command.name}${command.singleLineSummary}"/>
+      <st:include page="example.jelly" />
+      <j:set var="usage" value="${command.usage}"/>
+      <j:if test="${!empty usage}"><pre class="jenkins-!-margin-top-3">${command.usage}</pre></j:if>
+    </f:section>
+  </l:settings-subpage>
+</j:jelly>

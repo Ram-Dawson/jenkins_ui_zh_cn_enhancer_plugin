@@ -1,0 +1,21 @@
+<div>
+  此监控项会检查可用的虚拟内存（也称为
+  <code>swap space</code>
+  ，交换空间）。
+  <p>交换空间的具体定义会因平台不同而有所差异。</p>
+  <ul>
+    <li>
+      在 Windows 上，它表示分页文件的可用空间。由于 Windows 可能会自动增大分页文件大小，因此这个值的参考意义并不算太大。
+    </li>
+    <li>
+      在 Linux 上，这个值来自
+      <code>/proc/meminfo</code>
+      。
+    </li>
+    <li>
+      对于其他 Unix 系统，这个值来自
+      <code>top</code>
+      命令。
+    </li>
+  </ul>
+</div>
