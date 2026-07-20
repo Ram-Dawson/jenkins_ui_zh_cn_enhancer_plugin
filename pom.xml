@@ -221,6 +221,13 @@
         <directory>plugins/gradle-plugin/plugin/src/main/resources</directory>
       </resource>
       <resource>
+        <directory>plugins/gradle-plugin/plugin/src/main/webapp</directory>
+        <includes>
+          <include>help-GradleInstallation-home_zh_CN.html</include>
+          <include>help-GradleInstallation-name_zh_CN.html</include>
+        </includes>
+      </resource>
+      <resource>
         <directory>plugins/pipeline-groovy-lib-plugin/src/main/resources</directory>
       </resource>
       <resource>
