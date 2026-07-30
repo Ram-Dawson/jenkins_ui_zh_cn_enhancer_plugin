@@ -14,6 +14,7 @@ $resolvedReferenceRoot = (Resolve-Path $ReferenceRoot).Path
 $referenceResourceOverrides = @{
     'configuration-as-code-plugin' = 'configuration-as-code-plugin/plugin/src/main/resources'
     'ssh-slaves-plugin' = 'ssh-agents-plugin/src/main/resources'
+    'workflow-cps-plugin' = 'workflow-cps-plugin/plugin/src/main/resources'
 }
 $summary = @()
 foreach ($resourceDirectory in $resourceDirectories) {

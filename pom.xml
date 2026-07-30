@@ -89,6 +89,9 @@
         <directory>plugins/github-branch-source-plugin/src/main/resources</directory>
       </resource>
       <resource>
+        <directory>plugins/github-plugin/src/main/resources</directory>
+      </resource>
+      <resource>
         <directory>plugins/gitlab-branch-source-plugin/src/main/resources</directory>
       </resource>
       <resource>
@@ -125,7 +128,13 @@
         <directory>plugins/pam-auth-plugin/src/main/resources</directory>
       </resource>
       <resource>
+        <directory>plugins/theme-manager-plugin/src/main/resources</directory>
+      </resource>
+      <resource>
         <directory>plugins/translation-plugin/src/main/resources</directory>
+      </resource>
+      <resource>
+        <directory>plugins/uno-choice-plugin/src/main/resources</directory>
       </resource>
       <resource>
         <directory>plugins/hugo-plugin/src/main/resources</directory>
@@ -189,6 +198,9 @@
       </resource>
       <resource>
         <directory>plugins/ssh-slaves-plugin/src/main/resources</directory>
+      </resource>
+      <resource>
+        <directory>plugins/sshd-plugin/src/main/resources</directory>
       </resource>
       <resource>
         <directory>plugins/subversion-plugin/src/main/resources</directory>

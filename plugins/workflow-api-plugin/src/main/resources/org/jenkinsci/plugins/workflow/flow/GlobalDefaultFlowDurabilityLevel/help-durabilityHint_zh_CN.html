@@ -1,0 +1,27 @@
+<div>
+    <p>此设置允许用户更改正在运行的 Pipeline 的默认耐久性模式。在大多数情况下，这是性能与
+        Pipeline 在 Jenkins 发生意外故障后恢复能力之间的权衡。</p>
+    <p><strong>此设置有什么作用？</strong></p>
+    <ul>
+        <li>此前，正在运行的 Pipeline 会持续写入数据，因此即使 Jenkins 发生故障也能恢复。
+            此设置允许用户调整这种写入行为。</li>
+        <li>高性能、低耐久性模式会显著降低正在运行的 Pipeline 写入磁盘的频率。</li>
+        <li>对于包含大量步骤或复杂逻辑的 Pipeline，较少写入数据可以大幅减少构建时间。
+            对于大部分时间都在等待 shell/batch 脚本运行的 Pipeline，这种差异通常不明显。</li>
+        <li>耐久性较低的 Pipeline 如果未完成且 Jenkins 没有正常关闭，可能会丢失数据：
+            <ul>
+                <li>“正常”关闭是指 Jenkins 执行完整的关闭流程，例如访问
+                    <code>http://[jenkins-server]/exit</code>。</li>
+                <li>“非正常”关闭，例如使用 <code>kill -9</code> 终止 Jenkins 进程，可能导致未完成的
+                    Pipeline 无法持久化数据。</li>
+            </ul>
+        </li>
+        <li>无法持久化数据的 Pipeline 可能无法恢复，也可能无法显示在 Blue Ocean、Stage View 等视图中。</li>
+        <li>无论耐久性设置如何，Pipeline 通常都会写入日志数据。</li>
+        <li>某些模式使用“原子写入”选项，以避免在发生故障时 Pipeline 构建文件被覆盖或只写入一部分。</li>
+        <li>原子写入可能给文件系统带来更多压力，尤其是在网络存储上，不使用它可能更快。</li>
+    </ul>
+    <p>
+        <strong>注意：</strong>此设置仅定义全局<em>默认值</em>。单个 Pipeline 和多分支项目可以覆盖该默认值。
+    </p>
+</div>
